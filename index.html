@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GBC MOBILE - Global Store</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white min-h-screen">
+<div id="app" class="max-w-6xl mx-auto p-4">
+
+<div id="banner" class="bg-yellow-500 text-black p-3 rounded-xl font-bold mb-4 text-center">
+🟢 Global Mode - Connected to Neon - Backend: https://gbc-mobile-backend.onrender.com
+</div>
+
+<header class="flex justify-between items-center bg-[#111] p-4 rounded-2xl border border-[#222] mb-6">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center font-black text-black">GBC</div>
+    <div><div class="font-black tracking-widest">GRAND BILLIONAIRE CITY MOBILE</div><div class="text-xs text-zinc-500">GC COIN STORE • GLOBAL • 15k+ PLAYERS</div></div>
+  </div>
+  <div class="flex gap-2">
+    <button onclick="openCart()" class="bg-[#222] px-4 py-2 rounded-xl">🛒 <span id="cartCount">0</span></button>
+    <button onclick="openLogin()" class="bg-white text-black px-4 py-2 rounded-xl font-bold">Login</button>
+  </div>
+</header>
+
+<div class="grid grid-cols-2 gap-4 mb-6">
+  <div class="bg-[#111] border border-[#222] p-4 rounded-2xl"><div class="text-3xl font-black">15k+</div><div class="text-xs text-zinc-500">PLAYERS</div></div>
+  <div class="bg-[#111] border border-[#222] p-4 rounded-2xl"><div class="text-3xl font-black text-yellow-500">50k+</div><div class="text-xs text-zinc-500">ORDERS DELIVERED</div></div>
+</div>
+
+<div class="bg-[#111] border border-[#222] p-4 rounded-2xl mb-6">
+  <h2 class="font-black mb-2">DATABASE SETTINGS — NEON GLOBAL <span class="bg-green-500 text-black text-xs px-2 py-1 rounded-full">GLOBAL</span></h2>
+  <p class="text-xs text-zinc-500 mb-3">Backend URL: https://gbc-mobile-backend.onrender.com — Neon Project: ep-lucky-cloud-aeyrscx9</p>
+  <div class="flex gap-2">
+    <button onclick="testConn()" class="bg-green-500 text-black px-4 py-2 rounded-xl font-bold">Test Connection</button>
+    <span id="status" class="text-xs py-2">Status: Global Mode</span>
+  </div>
+</div>
+
+<div id="ownerPanel" class="hidden bg-[#111] border border-yellow-500/30 p-4 rounded-2xl mb-6">
+  <h2 class="font-black mb-3">OWNER PANEL — Add New Product</h2>
+  <input id="pName" placeholder="Product Name e.g. 50 GC Coins" class="w-full bg-black border border-[#222] rounded-xl p-3 mb-2"/>
+  <div class="grid grid-cols-2 gap-2 mb-2">
+    <input id="pPrice" type="number" placeholder="GC Price" class="bg-black border border-[#222] rounded-xl p-3"/>
+    <input id="pStock" type="number" placeholder="Stock" value="999" class="bg-black border border-[#222] rounded-xl p-3"/>
+  </div>
+  <input id="pImage" placeholder="Image URL (optional)" class="w-full bg-black border border-[#222] rounded-xl p-3 mb-3"/>
+  <button onclick="addProduct()" class="w-full bg-yellow-500 text-black font-black py-3 rounded-xl">Add Product to Neon Global</button>
+</div>
+
+<div id="products" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+<div id="loginModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4">
+  <div class="bg-[#111] border border-[#222] p-6 rounded-2xl w-full max-w-sm">
+    <h3 class="font-black mb-3">Login</h3>
+    <input id="lUser" placeholder="username" class="w-full bg-black border border-[#222] rounded-xl p-3 mb-2"/>
+    <input id="lPass" type="password" placeholder="password" class="w-full bg-black border border-[#222] rounded-xl p-3 mb-3"/>
+    <button onclick="doLogin()" class="w-full bg-white text-black font-bold py-3 rounded-xl">Login</button>
+    <button onclick="closeLogin()" class="w-full mt-2 text-zinc-500">Close</button>
+    <p class="text-xs text-zinc-500 mt-2">owner / GBC2026!</p>
+  </div>
+</div>
+
+<div id="cartModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4">
+  <div class="bg-[#111] border border-[#222] p-6 rounded-2xl w-full max-w-md">
+    <h3 class="font-black mb-3">Cart</h3>
+    <div id="cartItems"></div>
+    <input id="rpName" placeholder="RP Name" class="w-full bg-black border border-[#222] rounded-xl p-3 mt-3 mb-2"/>
+    <input id="rpEmail" placeholder="Email" class="w-full bg-black border border-[#222] rounded-xl p-3 mb-3"/>
+    <button onclick="checkout()" class="w-full bg-yellow-500 text-black font-black py-3 rounded-xl">Checkout</button>
+    <button onclick="closeCart()" class="w-full mt-2 text-zinc-500">Close</button>
+  </div>
+</div>
+
+</div>
+<script>
+const BACKEND = "https://gbc-mobile-backend.onrender.com";
+let cart = JSON.parse(localStorage.getItem('gbc_cart')||'[]');
+async function fetchProducts(){
+  try{
+    const r = await fetch(BACKEND+"/api/products");
+    const data = await r.json();
+    document.getElementById('status').textContent = "Status: Global Mode - "+data.length+" products from Neon";
+    render(data);
+  }catch(e){ document.getElementById('status').textContent = "Status: Backend offline"; }
+}
+function render(list){
+  document.getElementById('products').innerHTML = list.map(p=>`
+    <div class="bg-[#111] border border-[#222] rounded-2xl overflow-hidden">
+      <img src="${p.image_url||'https://images.unsplash.com/photo-1621411124793-1f04a6c8dc0a?w=400'}" class="w-full h-40 object-cover"/>
+      <div class="p-3">
+        <div class="font-bold">${p.name}</div>
+        <div class="text-yellow-500 font-black">${p.gc_price} GC</div>
+        <button onclick='addToCart(${JSON.stringify(p)})' class="w-full mt-2 bg-white text-black font-bold py-2 rounded-xl">Add to Cart</button>
+      </div>
+    </div>
+  `).join('');
+}
+function addToCart(p){ cart.push(p); localStorage.setItem('gbc_cart', JSON.stringify(cart)); updateCount(); alert('Added'); }
+function updateCount(){ document.getElementById('cartCount').textContent = cart.length; }
+function openCart(){ document.getElementById('cartModal').classList.remove('hidden'); renderCart(); }
+function closeCart(){ document.getElementById('cartModal').classList.add('hidden'); }
+function renderCart(){ document.getElementById('cartItems').innerHTML = cart.map(c=>`<div class="flex justify-between py-1"><span>${c.name}</span><span>${c.gc_price} GC</span></div>`).join('')||'Empty'; }
+async function checkout(){
+  const rp_name=document.getElementById('rpName').value; const email=document.getElementById('rpEmail').value;
+  if(!rp_name||!email) return alert('Enter RP Name + Email');
+  const total_gc=cart.reduce((s,c)=>s+Number(c.gc_price),0);
+  const r=await fetch(BACKEND+"/api/orders",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({rp_name,email,items:cart,total_gc})});
+  const data=await r.json(); alert('Order Success! TX: '+data.transaction_id); cart=[]; localStorage.setItem('gbc_cart','[]'); updateCount(); closeCart();
+}
+function openLogin(){ document.getElementById('loginModal').classList.remove('hidden'); }
+function closeLogin(){ document.getElementById('loginModal').classList.add('hidden'); }
+async function doLogin(){
+  const username=document.getElementById('lUser').value; const password=document.getElementById('lPass').value;
+  const r=await fetch(BACKEND+"/api/auth/login",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+  const data=await r.json(); if(data.error) return alert('Invalid'); document.getElementById('ownerPanel').classList.remove('hidden'); closeLogin(); alert('Welcome '+data.displayName);
+}
+async function addProduct(){
+  const name=document.getElementById('pName').value; const gc_price=Number(document.getElementById('pPrice').value);
+  const stock=Number(document.getElementById('pStock').value||999); const image_url=document.getElementById('pImage').value;
+  if(!name||!gc_price) return alert('Name + Price required');
+  await fetch(BACKEND+"/api/products",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,gc_price,stock,image_url})});
+  alert('Product added to Neon!'); fetchProducts();
+}
+async function testConn(){ const r=await fetch(BACKEND+"/health"); const d=await r.json(); alert('Backend Live: '+BACKEND); fetchProducts(); }
+fetchProducts(); updateCount();
+</script>
+</body>
+</html>
