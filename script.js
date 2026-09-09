@@ -1,65 +1,56 @@
-const DEFAULT_SECTIONS = [
-{type:'hero', id:'hero1', data:{title:'GRAND BILLIONAIRE CITY\nPREMIUM OFFICIAL MARKET', subtitle:'The Official Global Market of Grand Billionaire City. Trusted by 15,000+ players worldwide since 2022. Luxury vehicles, mansions, businesses, donator packages. Instant delivery • Secured orders • Official Store.', btn1:'BROWSE 14 CARS', btn2:'VIEW CART', bg:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800', secured:'SECURED ORDER ID • RATE LIMITED • CAPTCHA', verified:'SECURED - ENCRYPTED - VERIFIED OFFICIAL'}},
-{type:'stats', id:'stats1', data:{items:[{icon:'👥', val:'15k+', label:'Players'},{icon:'📦', val:'50k+', label:'Orders'},{icon:'⭐', val:'4.9', label:'Rating'},{icon:'⏰', val:'24/7', label:'Support'}]}},
-{type:'banner', id:'banner1', data:{text:'🔥 NEW PRICING: Official ratio 2M=₦400 with 10% OFF! Game Value × ₦180 • 10% OFF • Secured delivery'}},
-{type:'currency', id:'cur1', data:{title:'CURRENCY PACKS', badge:'AUTO WHATSAPP SEND', packs:[
-{id:1,name:'2M Cash', ingame:'2,000,000 in-game', price:'400 Naira', popular:true, btn:'BUY NOW • AUTO WHATSAPP'},
-{id:2,name:'5M Cash', ingame:'5,000,000 in-game', price:'900 Naira', btn:'BUY NOW • AUTO WHATSAPP'},
-{id:3,name:'10M Cash', ingame:'10,000,000 in-game', price:'1700 Naira', btn:'BUY NOW • AUTO WHATSAPP'},
-{id:4,name:'25M Cash', ingame:'25,000,000 in-game', price:'4000 Naira', btn:'BUY NOW • AUTO WHATSAPP'}
+const FALLBACK="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600";
+const DEFAULT=[
+{type:'hero',data:{bg:FALLBACK,title1:'GRAND BILLIONAIRE CITY',title2:'PREMIUM OFFICIAL MARKET',desc:'The Official Global Market of Grand Billionaire City. Trusted by 15,000+ players worldwide since 2022. Luxury vehicles, mansions, businesses, donator packages. Instant delivery • Secured orders • Official Store.',secured:'🔒 SECURED ORDER ID • RATE LIMITED • CAPTCHA',verified:'🛡️ SECURED - ENCRYPTED - VERIFIED OFFICIAL',btn1:'BROWSE 14 CARS',btn2:'VIEW CART'}},
+{type:'stats',data:{items:[{v:'15k+',l:'Players'},{v:'50k+',l:'Orders'},{v:'4.9',l:'Rating'},{v:'24/7',l:'Support'}]}},
+{type:'banner',data:{text:'🔥 NEW PRICING: Official ratio 2M=₦400 with 10% OFF! Game Value × ₦180'}},
+{type:'currency',data:{title:'CURRENCY PACKS',packs:[
+{name:'2M Cash',sub:'2,000,000 in-game',price:'400 Naira',popular:true,btn:'BUY NOW • AUTO WHATSAPP'},
+{name:'5M Cash',sub:'5,000,000 in-game',price:'900 Naira',popular:false,btn:'BUY NOW • AUTO WHATSAPP'},
+{name:'10M Cash',sub:'10,000,000 in-game',price:'1700 Naira',popular:false,btn:'BUY NOW • AUTO WHATSAPP'},
+{name:'25M Cash',sub:'25,000,000 in-game',price:'4000 Naira',popular:false,btn:'BUY NOW • AUTO WHATSAPP'}
 ]}},
-{type:'cars', id:'cars1', data:{title:'LUXURY CAR COLLECTION', subtitle:'PREMIUM SHOWROOM', note:'Official ratio pricing 1M = ₦180 • 10% OFF • Secured delivery • Premium showroom', items:[
-{id:1,name:'Porsche 911 Turbo S White', price:'₦13,500', game:'75M', ratio:'₦15,000', usd:'$9 USD', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600', stock:'STOCK 5', badge1:'Default SAMP', badge2:'10% OFF - Ratio Pricing'},
-{id:2,name:'Bugatti Chiron Blue Black', price:'₦18,000', game:'100M', ratio:'₦20,000', usd:'$12 USD', img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600', stock:'STOCK 5', badge1:'Default SAMP', badge2:'10% OFF - Ratio Pricing'}
+{type:'cars',data:{title:'LUXURY CAR COLLECTION',subtitle:'PREMIUM SHOWROOM',note:'Official ratio pricing 1M = ₦180 • 10% OFF • Secured delivery',items:[
+{img:FALLBACK,name:'Porsche 911 Turbo S White',price:'₦13,500',game:'75M',ratio:'₦15,000',stock:'STOCK 5',b1:'Default SAMP',b2:'10% OFF - Ratio Pricing',usd:'$9 USD'},
+{img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600',name:'Bugatti Chiron Blue Black',price:'₦18,000',game:'100M',ratio:'₦20,000',stock:'STOCK 5',b1:'Default SAMP',b2:'10% OFF - Ratio Pricing',usd:'$12 USD'}
 ]}},
-{type:'mansions', id:'man1', data:{title:'LUXURY MANSIONS', badge:'Game Value × ₦180 - SECURED', items:[
-{name:'Vinewood Mansion', desc:'Luxury hillside estate with pool - Max ~7k ratio', game:'38M', ratio:'₦7,600', price:'₦6,840', off:'10% OFF - Ratio', in:'38M in-game'},
-{name:'City Penthouse', desc:'Downtown high-rise with helipad - Ratio 10% OFF', game:'32M', ratio:'₦6,400', price:'₦5,760', off:'10% OFF - Ratio', in:'32M in-game'},
-{name:'Beach Villa', desc:'Oceanfront with private dock - Ratio 10% OFF', game:'28M', ratio:'₦5,600', price:'₦5,040', off:'10% OFF - Ratio', in:'28M in-game'}
+{type:'mansions',data:{title:'LUXURY MANSIONS',badge:'Game Value × ₦180 - SECURED',items:[
+{name:'Vinewood Mansion',desc:'Luxury hillside estate with pool - Max ~7k ratio',game:'38M',ratio:'₦7,600',price:'₦6,840',in:'38M in-game',off:'10% OFF - Ratio'},
+{name:'City Penthouse',desc:'Downtown high-rise with helipad - Ratio 10% OFF',game:'32M',ratio:'₦6,400',price:'₦5,760',in:'32M in-game',off:'10% OFF - Ratio'},
+{name:'Beach Villa',desc:'Oceanfront with private dock - Ratio 10% OFF',game:'28M',ratio:'₦5,600',price:'₦5,040',in:'28M in-game',off:'10% OFF - Ratio'}
 ]}},
-{type:'businesses', id:'biz1', data:{title:'PREMIUM BUSINESSES', items:[
-{name:'Gas Station', price:'4000 Naira'},{name:'Nightclub', price:'4000 Naira'},{name:'Car Dealership', price:'4000 Naira'},{name:'Ammu-Nation', price:'4000 Naira'},{name:'Cluckin Bell', price:'4000 Naira'},{name:'Burger Shot', price:'4000 Naira'}
+{type:'businesses',data:{title:'PREMIUM BUSINESSES',items:[
+{name:'Gas Station',price:'4000 Naira'},{name:'Nightclub',price:'4000 Naira'},{name:'Car Dealership',price:'4000 Naira'},{name:'Ammu-Nation',price:'4000 Naira'},{name:'Cluckin Bell',price:'4000 Naira'},{name:'Burger Shot',price:'4000 Naira'}
 ]}},
-{type:'donator', id:'don1', data:{title:'DONATOR PACKAGES', badge:'OFFICIAL TIERS', items:[
-{name:'Bronze Donator', price:'2000 Naira', perks:['50M Cash','Bronze Tag','1 Car Slot'], btn:'BUY BRONZE'},
-{name:'Gold Donator', price:'5000 Naira', perks:['200M Cash','Gold Tag','5 Car Slots','Gold Chat'], btn:'BUY GOLD'}
-]}}
+{type:'donator',data:{title:'DONATOR PACKAGES',badge:'OFFICIAL TIERS',items:[
+{name:'Bronze Donator',price:'2000 Naira',perks:['50M Cash','Bronze Tag','1 Car Slot'],btn:'BUY BRONZE'},
+{name:'Gold Donator',price:'5000 Naira',perks:['200M Cash','Gold Tag','5 Car Slots','Gold Chat'],btn:'BUY GOLD'}
+]}},
+{type:'products',data:{title:'NEON GLOBAL PRODUCTS'}}
 ];
-
-function getSections(){try{const s=localStorage.getItem('gbc_sections_v2'); return s?JSON.parse(s):DEFAULT_SECTIONS}catch{return DEFAULT_SECTIONS}}
-
-function render(){
- const root=document.getElementById('root'); const secs=getSections(); let html='';
- secs.forEach(sec=>{
-  if(sec.hidden) return;
+async function getSections(){
+ try{ const r=await fetch('/api/sections'); const d=await r.json(); if(d.sections&&d.sections.length) return d.sections; }catch{}
+ try{ const s=localStorage.getItem('gbc_full_v3'); if(s) return JSON.parse(s); }catch{}
+ return DEFAULT;
+}
+async function loadNeon(){ try{ const r=await fetch('/api/products'); const d=await r.json(); return d.products||[] }catch{ return [] } }
+async function render(){
+ const root=document.getElementById('root'); const secs=await getSections(); const neon=await loadNeon();
+ const cc=document.getElementById('cartCount'); if(cc) cc.innerText=neon.length;
+ let html='';
+ for(const sec of secs){
+  if(sec.hidden) continue;
   if(sec.type==='hero'){
-   html+=`<div class="hero"><div class="hero-bg"><img src="${sec.data.bg}" onerror="this.style.display='none'"/></div><div class="hero-overlay"></div><div class="hero-content"><div class="sec-badge">🔒 ${sec.data.secured}</div><div class="sec-badge" style="margin-left:8px">🛡️ ${sec.data.verified}</div><h1>${sec.data.title.replace(/\n/g,'<br>')}<br><span>PREMIUM OFFICIAL MARKET</span></h1><p>${sec.data.subtitle}</p><div class="btn-row"><button class="btn-red">${sec.data.btn1}</button><button class="btn-dark">${sec.data.btn2}</button></div></div></div>`;
+   html+=`<div style="max-width:1280px;margin:20px auto;padding:0 4%"><div style="position:relative;height:520px;border-radius:28px;overflow:hidden;background:var(--surface);border:1px solid var(--border)"><div style="position:absolute;inset:0"><img src="${sec.data.bg}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='${FALLBACK}'"/></div><div style="position:absolute;inset:0;background:radial-gradient(600px 300px at 20% 20%, rgba(216,173,85,.15), transparent), linear-gradient(180deg, rgba(0,0,0,.1), rgba(7,10,18,.92))"></div><div style="position:absolute;bottom:0;left:0;right:0;padding:24px;max-width:680px"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><span class="badge badge-green">${sec.data.secured}</span><span class="badge" style="background:rgba(15,26,46,.6);color:#7ab4ff;border-color:rgba(26,46,77,.5)">${sec.data.verified}</span></div><h1 style="font-size:32px;font-weight:900;line-height:.95">${sec.data.title1}<br><span style="background:linear-gradient(135deg,var(--gold),var(--gold-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">${sec.data.title2}</span></h1><p style="color:var(--muted);font-size:13px;margin-top:12px">${sec.data.desc}</p><div style="display:flex;gap:10px;margin-top:18px"><button class="btn btn-red">${sec.data.btn1}</button><button class="btn" style="background:rgba(255,255,255,.06)">${sec.data.btn2}</button></div></div></div></div>`;
   }
-  if(sec.type==='stats'){
-   html+=`<div class="stats">${sec.data.items.map(i=>`<div class="stat"><div class="stat-icon">${i.icon}</div><div><b>${i.val}</b><small>${i.label}</small></div></div>`).join('')}</div>`;
-  }
-  if(sec.type==='banner'){
-   html+=`<div class="banner"><span style="background:#ff3b30;color:#fff;padding:3px 8px;border-radius:999px;font-size:9px;font-weight:900">NEW</span> ${sec.data.text}</div>`;
-  }
-  if(sec.type==='currency'){
-   html+=`<div class="section-title"><h2>${sec.data.title}</h2><small style="color:#666;font-size:10px;letter-spacing:1px">${sec.data.badge}</small></div><div class="grid2">${sec.data.packs.map(p=>`<div class="card ${p.popular?'popular':''}">${p.popular?'<div class="popular-badge">POPULAR</div>':''}<div style="font-weight:800;font-size:13px">${p.name}</div><div style="font-size:11px;color:#666;margin:2px 0">${p.ingame}</div><div class="price">${p.price}</div><button class="btn-buy">${p.btn}</button></div>`).join('')}</div>`;
-  }
-  if(sec.type==='cars'){
-   html+=`<div class="section-title"><div><small style="color:#c9a86a;letter-spacing:2px;font-size:10px">${sec.data.subtitle}</small><h2>${sec.data.title}</h2><small style="color:#666;font-size:11px">${sec.data.note}</small></div></div>`;
-   html+=sec.data.items.map(car=>`<div class="car-card"><div class="car-img"><img src="${car.img}"/><span class="tag tag-stock">${car.stock}</span><span class="tag tag-samp">${car.badge1}</span><span class="tag tag-off">${car.badge2}</span></div><div style="padding:14px"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">${car.name}</b><b style="color:#fbbf24">${car.price}</b></div><div style="background:#0a0a0a;border:1px solid #1e1e1e;border-radius:12px;padding:10px;margin:10px 0;font-size:11px;color:#888">Game: ${car.game} | Ratio ${car.ratio} | 10% OFF → <span style="color:#fbbf24">${car.price}</span><br><small>${car.usd} • SAMP • ${car.game} × 180 = ${car.price.replace(/₦|,/g,'')}</small></div><button class="btn-buy" style="background:linear-gradient(90deg,#ff3b30,#ff8c00)">ADD TO CART - ${car.price}</button></div></div>`).join('');
-  }
-  if(sec.type==='mansions'){
-   html+=`<div class="section-title"><h2>🏢 ${sec.data.title}</h2><span style="background:#1e1e1e;border:1px solid #2a2a2a;padding:4px 10px;border-radius:999px;font-size:9px">${sec.data.badge}</span></div>`;
-   html+=sec.data.items.map(m=>`<div class="mansion-card"><div style="flex:1"><div style="font-weight:800;font-size:13px">${m.name}</div><div style="font-size:11px;color:#666;margin:3px 0">${m.desc}</div><div style="font-size:11px;color:#888">Game: ${m.game} | Ratio ${m.ratio} | 10% OFF → <span style="color:#fbbf24">${m.price}</span></div></div><div style="text-align:right"><div style="color:#fbbf24;font-weight:900">${m.price}</div><div style="font-size:10px;color:#666">${m.in}</div><div style="font-size:9px;background:#1e1e1e;border:1px solid #2a2a2a;padding:3px 8px;border-radius:999px;margin:6px 0">${m.off}</div><button style="background:#0a0a0a;border:1px solid #222;color:#fff;padding:8px 14px;border-radius:999px;font-size:10px;font-weight:700;width:100%">ADD MANSION - ${m.price}</button></div></div>`).join('');
-  }
-  if(sec.type==='businesses'){
-   html+=`<div class="section-title"><h2>💼 ${sec.data.title}</h2></div><div class="grid2">${sec.data.items.map(b=>`<div class="card" style="text-align:center;padding:20px"><div style="font-weight:800;font-size:13px">${b.name}</div><div style="color:#fbbf24;font-weight:800;margin:8px 0;font-size:13px">${b.price}</div><div style="font-size:10px;letter-spacing:2px;color:#888;margin-top:10px">ADD</div></div>`).join('')}</div>`;
-  }
-  if(sec.type==='donator'){
-   html+=`<div class="section-title"><h2>👑 ${sec.data.title}</h2><span style="background:#2a1a1a;border:1px solid #3a2a2a;color:#c9a86a;padding:4px 10px;border-radius:999px;font-size:9px">${sec.data.badge}</span></div>`;
-   html+=sec.data.items.map(d=>`<div class="card" style="margin:0 4% 12px;background:linear-gradient(135deg,#151515,#1a1a0a)"><div style="display:flex;justify-content:space-between"><div><div style="font-weight:800">${d.name}</div><div style="color:#fbbf24;font-weight:900;margin:6px 0">${d.price}</div>${d.perks.map(p=>`<div style="font-size:11px;color:#888;margin:3px 0">✓ ${p}</div>`).join('')}</div><div style="width:60px;height:60px;background:linear-gradient(135deg,#2a2a0a,#1a1a0a);border-radius:12px"></div></div><button class="btn-buy" style="background:#c9a86a;color:#000">${d.btn}</button></div>`).join('');
-  }
- });
+  if(sec.type==='stats'){ html+=`<div style="max-width:1280px;margin:16px auto;padding:0 4%;display:grid;grid-template-columns:repeat(2,1fr);gap:12px" class="stats-grid">${sec.data.items.map(i=>`<div class="card" style="padding:16px;display:flex;gap:12px"><div style="width:44px;height:44px;background:var(--surface-2);border:1px solid var(--border);border-radius:14px;display:grid;place-items:center;color:var(--gold)">◍</div><div><b>${i.v}</b><div style="font-size:11px;color:var(--muted)">${i.l}</div></div></div>`).join('')}</div>`; }
+  if(sec.type==='banner'){ html+=`<div style="max-width:1280px;margin:12px auto;padding:0 4%"><div style="background:linear-gradient(135deg,var(--surface),var(--surface-2));border:1px solid var(--border);border-radius:14px;padding:12px 16px;font-size:11px"><span style="background:var(--red);color:#fff;padding:3px 10px;border-radius:999px;font-size:9px;font-weight:900;margin-right:8px">NEW</span>${sec.data.text}</div></div>`; }
+  if(sec.type==='currency'){ html+=`<div style="max-width:1280px;margin:28px auto;padding:0 4%"><div style="display:flex;justify-content:space-between;margin-bottom:14px"><h2 style="font-size:20px;font-weight:900">${sec.data.title}</h2><span style="font-size:10px;color:var(--muted);letter-spacing:1.5px">AUTO WHATSAPP SEND</span></div><div class="grid-3">${sec.data.packs.map(p=>`<div class="card" style="padding:20px;text-align:center;position:relative">${p.popular?'<div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#000;font-size:9px;font-weight:900;padding:5px 14px;border-radius:999px">POPULAR</div>':''}<div style="font-weight:800">${p.name}</div><div style="font-size:11px;color:var(--muted)">${p.sub}</div><div style="color:var(--gold);font-weight:900;font-size:16px;margin:10px 0">${p.price}</div><button class="btn btn-red" style="width:100%;font-size:11px">${p.btn}</button></div>`).join('')}</div></div>`; }
+  if(sec.type==='cars'){ html+=`<div style="max-width:1280px;margin:28px auto;padding:0 4%"><div style="margin-bottom:12px"><div style="font-size:10px;color:var(--gold);letter-spacing:2px;font-weight:800">${sec.data.subtitle}</div><h2 style="font-size:20px;font-weight:900">${sec.data.title}</h2><div style="font-size:11px;color:var(--muted)">${sec.data.note}</div></div><div style="display:grid;gap:16px">${sec.data.items.map(c=>`<div class="card" style="overflow:hidden"><div style="height:220px;position:relative;background:#0a0e1a"><img src="${c.img}" style="width:100%;height:100%;object-fit:cover"/><span class="badge" style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,.65)">${c.stock}</span><span class="badge" style="position:absolute;top:12px;left:90px;background:var(--red);color:#fff">${c.b1}</span><span class="badge" style="position:absolute;top:12px;right:12px;background:var(--gold);color:#000">${c.b2}</span></div><div style="padding:16px"><div style="display:flex;justify-content:space-between"><b>${c.name}</b><b style="color:var(--gold)">${c.price}</b></div><div style="background:#0a0e1a;border:1px solid var(--border);border-radius:12px;padding:10px;margin:12px 0;font-size:11px;color:var(--muted)">Game: ${c.game} | Ratio ${c.ratio} | 10% OFF → <span style="color:var(--gold)">${c.price}</span><br><span style="font-size:10px">${c.usd} • SAMP • ${c.game} × 180</span></div><button class="btn btn-red" style="width:100%">ADD TO CART - ${c.price}</button></div></div>`).join('')}</div></div>`; }
+  if(sec.type==='mansions'){ html+=`<div style="max-width:1280px;margin:28px auto;padding:0 4%"><h2 style="font-size:18px;font-weight:900">🏢 ${sec.data.title}</h2><div style="display:grid;gap:12px;margin-top:12px">${sec.data.items.map(m=>`<div class="card" style="padding:16px;display:flex;justify-content:space-between"><div><b>${m.name}</b><div style="font-size:11px;color:var(--muted)">${m.desc}</div><div style="font-size:11px;color:var(--muted)">Game: ${m.game} | ${m.ratio} → <span style="color:var(--gold)">${m.price}</span></div></div><div style="text-align:right"><div style="color:var(--gold);font-weight:900">${m.price}</div><button class="btn" style="font-size:10px;margin-top:6px">ADD MANSION - ${m.price}</button></div></div>`).join('')}</div></div>`; }
+  if(sec.type==='businesses'){ html+=`<div style="max-width:1280px;margin:28px auto;padding:0 4%"><h2 style="font-size:18px;font-weight:900">💼 ${sec.data.title}</h2><div class="grid-3" style="margin-top:12px">${sec.data.items.map(b=>`<div class="card" style="padding:22px;text-align:center"><b>${b.name}</b><div style="color:var(--gold);font-weight:900;margin:8px 0">${b.price}</div><div style="font-size:10px;color:var(--muted);letter-spacing:2px">ADD</div></div>`).join('')}</div></div>`; }
+  if(sec.type==='donator'){ html+=`<div style="max-width:1280px;margin:28px auto;padding:0 4%"><h2 style="font-size:18px;font-weight:900">👑 ${sec.data.title}</h2><div style="display:grid;gap:12px;margin-top:12px">${sec.data.items.map(d=>`<div class="card" style="padding:18px"><b>${d.name}</b><div style="color:var(--gold);font-weight:900;margin:8px 0">${d.price}</div>${d.perks.map(p=>`<div style="font-size:11px;color:var(--muted)">✓ ${p}</div>`).join('')}<button class="btn btn-gold" style="width:100%;margin-top:12px">${d.btn}</button></div>`).join('')}</div></div>`; }
+  if(sec.type==='products'){ html+=`<div style="max-width:1280px;margin:28px auto;padding:0 4%"><div style="display:flex;justify-content:space-between"><h2 style="font-size:18px;font-weight:900">${sec.data.title} • ${neon.length} items from Neon</h2><span class="badge badge-green">● LIVE • SYNCED</span></div><div class="grid-3" style="margin-top:12px">${neon.map(p=>`<div class="card"><div style="height:160px;background:#0a0e1a"><img src="${p.image||p.image_url||''}" style="width:100%;height:100%;object-fit:cover"/></div><div style="padding:14px"><div style="font-weight:700;font-size:13px">${p.name}</div><div style="color:var(--gold);font-weight:800;margin:8px 0">${p.price||p.gc_price+' GC'}</div><button class="btn btn-white" style="width:100%">Buy Now</button></div></div>`).join('')||'<div style="color:var(--muted);padding:24px">No products — add in Panel</div>'}</div></div>`; }
+ }
  root.innerHTML=html;
 }
-document.addEventListener('DOMContentLoaded',render);
+document.addEventListener('DOMContentLoaded', render);
