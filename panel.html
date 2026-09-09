@@ -1,17 +1,72 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Owner Panel - GBC</title><link rel="stylesheet" href="style.css"/></head><body>
-<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>GC STORE • GLOBAL • 15k+ PLAYERS</small></div></a><div style="display:flex;align-items:center;gap:10px"><div id="navLinks" class="nav-links"><a href="marketplace.html">Marketplace</a><a href="webstore.html">Webstore</a><a href="support.html">Support</a><a href="account.html">Account</a><a href="panel.html">Panel</a><a href="login.html" class="btn btn-white">Login</a></div><button class="menu-btn" onclick="toggleMenu()">☰</button></div></div></header>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Owner Panel - GBC</title><link rel="stylesheet" href="style.css"/>
+<style>
+.prod-row{display:flex;gap:10px;align-items:center;padding:10px;background:#121212;border:1px solid #1e1e1e;border-radius:10px;margin-bottom:8px}
+.prod-row img{width:50px;height:50px;object-fit:cover;border-radius:8px;background:#0a0a0a}
+.prod-row input{background:#0a0a0a;border:1px solid #222;color:#fff;padding:6px 8px;border-radius:6px;width:100%}
+.btn-xs{padding:6px 10px;border-radius:6px;border:0;font-weight:700;font-size:11px;cursor:pointer}
+.btn-del{background:#3a1a1a;color:#ff8a8a;border:1px solid #5a2222}
+.btn-save{background:#1a2a3a;color:#8ab4ff;border:1px solid #223a5a}
+</style>
+</head><body>
+<header class="header"><div class="nav"><a href="index.html" class="logo" id="secretLogo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>GC STORE • GLOBAL • 15k+ PLAYERS</small></div></a><div style="display:flex;align-items:center;gap:10px"><div id="navLinks" class="nav-links"><a href="marketplace.html">Marketplace</a><a href="webstore.html">Webstore</a><a href="support.html">Support</a></div><button class="menu-btn" onclick="toggleMenu()">☰</button></div></div></header>
 
 <div style="max-width:1100px;margin:0 auto;padding:20px 4%"><div id="panel-auth">
-<h1 style="font-weight:900;font-size:26px">Staff / Owner Panel</h1><p style="color:var(--muted);font-size:13px;margin-top:4px">Full Management — Neon Global • Login as owner / GBC2026! — Backend: gbc-mobile-backend.onrender.com</p>
+<h1 style="font-weight:900;font-size:26px">Staff / Owner Panel</h1><p style="color:var(--muted);font-size:13px;margin-top:4px">Full Management — Neon Global • Delete / Edit / Organise Enabled</p>
 <div class="tabs" style="margin-top:16px"><div class="tab active" data-tab="products-tab" onclick="switchTab('products-tab')">Products</div><div class="tab" data-tab="orders-tab" onclick="switchTab('orders-tab')">Orders</div><div class="tab" data-tab="staff-tab" onclick="switchTab('staff-tab')">Staff</div><div class="tab" data-tab="players-tab" onclick="switchTab('players-tab')">Players</div><div class="tab" data-tab="bank-tab" onclick="switchTab('bank-tab')">Bank Accounts</div><div class="tab" data-tab="add-tab" onclick="switchTab('add-tab')">Add Product</div></div>
 
-<div id="products-tab" class="tab-content"><h3 style="font-weight:800;margin-bottom:8px">Products Management (Neon)</h3><div id="products-tab-list">Loading products from Neon...</div></div>
-<div id="orders-tab" class="tab-content" style="display:none"><h3 style="font-weight:800;margin-bottom:8px">Orders Management</h3><div id="orders-tab">Loading orders...</div></div>
-<div id="staff-tab" class="tab-content" style="display:none"><h3 style="font-weight:800">Staff Management</h3><p style="color:var(--muted);font-size:13px">Staff table: id, user_id, level, role, active — from handoff. Implement /api/staff in backend</p><div class="card" style="padding:12px;margin-top:10px"><div>Owner Level 10 — Full Access</div><div>Staff Level 2 — Can manage orders</div><div>Staff Level 4 — Can manage site config</div><div>Staff Level 8 — Can manage staff</div></div></div>
-<div id="players-tab" class="tab-content" style="display:none"><h3 style="font-weight:800">Players Management</h3><p style="color:var(--muted);font-size:13px">Players table: id, user_id, display_name, level, gc_balance, vip — future /api/players</p></div>
-<div id="bank-tab" class="tab-content" style="display:none"><h3 style="font-weight:800">Bank Accounts</h3><p style="color:var(--muted);font-size:13px">bank_accounts: bank_name, account_number, account_name, active — for purchase page</p><div class="card" style="padding:12px;margin-top:10px"><input class="input" placeholder="Bank Name"/><input class="input" placeholder="Account Number"/><input class="input" placeholder="Account Name"/><button class="btn btn-gold">Add Bank Account (needs /api/bank_accounts)</button></div></div>
-<div id="add-tab" class="tab-content" style="display:none"><h3 style="font-weight:800;margin-bottom:10px">Add New Product to Neon Global</h3><div style="max-width:420px"><input id="pName" class="input" placeholder="Product Name e.g. 50 GC Coins"/><div style="display:flex;gap:8px"><input id="pPrice" type="number" class="input" placeholder="GC Price"/><input id="pStock" type="number" value="999" class="input" placeholder="Stock"/></div><input id="pImage" class="input" placeholder="Image URL https://... (optional, fallback auto)"/><button class="btn btn-gold" style="width:100%" onclick="addProduct()">Add Product to Neon Global</button><p style="font-size:11px;color:var(--muted);margin-top:8px">Image fallback auto if empty — fixes broken images you saw in webstore</p></div></div>
+<div id="products-tab" class="tab-content"><h3 style="font-weight:800;margin-bottom:8px">Products Management (Neon) - Delete / Edit / Organise</h3><div style="display:flex;gap:8px;margin-bottom:10px"><input id="sortMode" type="checkbox" onchange="loadProducts()"><label style="font-size:12px;color:var(--muted)">Sort by display_order (organise mode)</label></div><div id="products-tab-list">Loading products from Neon...</div></div>
+<div id="orders-tab" class="tab-content" style="display:none"><h3 style="font-weight:800;margin-bottom:8px">Orders Management</h3><div id="orders-tab-list">Loading orders...</div></div>
+<div id="staff-tab" class="tab-content" style="display:none"><h3 style="font-weight:800">Staff Management</h3><div class="card" style="padding:12px;margin-top:10px"><div>Owner Level 10 — Full Access</div><div>Staff Level 2 — Can manage orders</div><div>Staff Level 4 — Can manage site config</div><div>Staff Level 8 — Can manage staff</div></div></div>
+<div id="players-tab" class="tab-content" style="display:none"><h3 style="font-weight:800">Players Management</h3><p style="color:var(--muted);font-size:13px">Players table: id, user_id, display_name, level, gc_balance, vip</p></div>
+<div id="bank-tab" class="tab-content" style="display:none"><h3 style="font-weight:800">Bank Accounts</h3><div class="card" style="padding:12px;margin-top:10px"><input class="input" placeholder="Bank Name"/><input class="input" placeholder="Account Number"/><input class="input" placeholder="Account Name"/><button class="btn btn-gold">Add Bank Account</button></div></div>
+<div id="add-tab" class="tab-content" style="display:none"><h3 style="font-weight:800;margin-bottom:10px">Add New Product to Neon Global</h3><div style="max-width:420px"><input id="pName" class="input" placeholder="Product Name e.g. 50 GC Coins"/><div style="display:flex;gap:8px"><input id="pPrice" type="number" class="input" placeholder="GC Price"/><input id="pStock" type="number" value="999" class="input" placeholder="Stock"/><input id="pOrder" type="number" class="input" placeholder="Order 1,2,3"/></div><input id="pImage" class="input" placeholder="Image URL https://..."/><button class="btn btn-gold" style="width:100%" onclick="addProduct()">Add Product to Neon Global</button></div></div>
 </div></div>
 
-<footer style="padding:24px 4%;border-top:1px solid var(--border);color:var(--muted);font-size:11px;text-align:center;margin-top:30px">© 2026 Grand Billionaire City • Neon ep-lucky-cloud-aeyrscx9 • Backend: gbc-mobile-backend.onrender.com • <a href="panel.html" style="color:var(--gold)">Owner Panel</a></footer>
-<script src="script.js"></script></body></html>
+<footer style="padding:24px 4%;border-top:1px solid var(--border);color:var(--muted);font-size:11px;text-align:center;margin-top:30px">© 2026 Grand Billionaire City • Neon Global • Owner Only</footer>
+<script src="script.js"></script>
+<script>
+// OVERRIDE old loadProducts with control version
+async function loadProducts(){
+ const list=document.getElementById('products-tab-list');
+ list.innerHTML='Loading...';
+ try{
+  const r=await fetch('/api/products'); const d=await r.json();
+  let products=d.products||d||[];
+  if(document.getElementById('sortMode').checked) products.sort((a,b)=>(a.display_order||0)-(b.display_order||0));
+  list.innerHTML='';
+  products.forEach(p=>{
+   list.innerHTML+=`<div class="prod-row">
+   <img src="${p.image||''}" onerror="this.src='https://via.placeholder.com/50'">
+   <div style="flex:1;display:grid;grid-template-columns:1fr 80px 60px 50px;gap:6px;align-items:center">
+   <input value="${p.name||''}" onchange="updateProd(${p.id},'name',this.value)">
+   <input value="${p.price||''}" onchange="updateProd(${p.id},'price',this.value)">
+   <input value="${p.stock||''}" onchange="updateProd(${p.id},'stock',this.value)">
+   <input type="number" value="${p.display_order||0}" onchange="updateProd(${p.id},'display_order',this.value)" title="Order">
+   </div>
+   <button class="btn-xs btn-save" onclick="updateProd(${p.id},'name',document.querySelector('[onchange=\\'updateProd(${p.id},\\'name\\',this.value)\\']').value)">Save</button>
+   <button class="btn-xs btn-del" onclick="deleteProd(${p.id})">Delete</button>
+   </div>`;
+  });
+  if(products.length==0) list.innerHTML='<p style="color:#555">No products in Neon</p>';
+ }catch(e){ list.innerHTML=`<p style="color:#f88">Error: ${e.message}. Need /api/products.js</p>` }
+}
+async function updateProd(id,field,val){
+ await fetch('/api/products',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,[field]:val})});
+}
+async function deleteProd(id){
+ if(!confirm('DELETE from Neon? Homepage will update instantly!')) return;
+ await fetch('/api/products',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});
+ loadProducts();
+}
+function switchTab(id){
+ document.querySelectorAll('.tab-content').forEach(t=>t.style.display='none');
+ document.getElementById(id).style.display='block';
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ document.querySelector(`[data-tab="${id}"]`).classList.add('active');
+ if(id==='products-tab') loadProducts();
+}
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+// load first time
+setTimeout(loadProducts,500);
+</script>
+</body></html>
