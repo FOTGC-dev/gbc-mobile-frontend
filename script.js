@@ -1,4 +1,4 @@
-const BACKEND="https://gbc-mobile-backend.vercel.app";
+const BACKEND="";
 const FALLBACKS={1:"https://images.unsplash.com/photo-1610375461368-bdcbb0d6cc81?w=500",5:"https://images.unsplash.com/photo-1620325867502-221cfb5faa5f?w=500",10:"https://images.unsplash.com/photo-1605792657660-596af9009e82?w=500",default:"https://images.unsplash.com/photo-1550565118-238d50a16f0f?w=500",car:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600"};
 
 function coinFallback(price,name){
