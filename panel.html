@@ -1,103 +1,70 @@
-<!DOCTYPE html>
-<html lang="en"><head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
-}
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
-}
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
-}
-</style><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Owner Panel - GBC</title><link rel="stylesheet" href="style.css"/>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Owner Panel - GBC</title><link rel="stylesheet" href="style.css"/>
 <style>
 :root{--gold:#c9a86a;--border:#1e1e1e}
-.admin-top{max-width:1280px;margin:0 auto;padding:20px 4%;display:flex;justify-content:space-between;align-items:center}
 .prod-row{display:flex;gap:10px;align-items:center;padding:12px;background:#121212;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
 .prod-row img{width:56px;height:56px;object-fit:cover;border-radius:10px;background:#0a0a0a}
 .prod-row input{background:#0a0a0a;border:1px solid #222;color:#fff;padding:8px 10px;border-radius:8px;width:100%;font-size:13px}
 .btn-xs{padding:8px 12px;border-radius:8px;border:0;font-weight:800;font-size:12px;cursor:pointer}
 .btn-del{background:#2a1515;color:#ff8a8a;border:1px solid #4a2222}
-.btn-save{background:#152a3a;color:#8ab4ff;border:1px solid #223a5a}
 .btn-gold{background:var(--gold);color:#000;font-weight:900}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:99}
-.modal.open{display:flex}
-.modal-box{background:#171717;padding:22px;border-radius:16px;width:92%;max-width:420px;border:1px solid #222}
 .tab{cursor:pointer;padding:8px 14px;border-radius:20px;background:#121212;border:1px solid #1e1e1e;font-size:12px}
 .tab.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:900}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
 </style>
 </head><body>
-<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>OWNER PANEL • LIVE NEON</small></div></a><div><button onclick="localStorage.removeItem('gbc_staff');location.href='index.html'" class="btn-xs btn-del">Logout</button></div></div></header>
+<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>OWNER PANEL • FIXED</small></div></a><div><button onclick="localStorage.removeItem('gbc_staff');location.href='index.html'" class="btn-xs btn-del">Logout</button></div></div></header>
 
 <div style="max-width:1280px;margin:0 auto;padding:0 4%">
-<div style="margin-top:18px"><h1 style="font-weight:900;font-size:28px">Staff / Owner Panel</h1><p style="color:#666;font-size:13px;margin-top:4px">Full Management — Neon Global • Delete / Edit / Organise / Add • Backend: gbc-mobile-backend.onrender.com</p>
+<div style="margin-top:18px"><h1 style="font-weight:900;font-size:28px">Staff / Owner Panel</h1><p id="authStatus" style="color:#666;font-size:12px;margin-top:4px">Checking auth...</p>
 <div class="tabs"><div class="tab active" id="t-products" onclick="switchTab('products')">Products</div><div class="tab" id="t-add" onclick="switchTab('add')">Add Product</div><div class="tab" onclick="location.href='index.html'">View Store</div></div>
 </div>
 
-<div id="products" >
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-weight:800">Products Management — <span id="count">0</span> items from Neon</h3><button onclick="switchTab('add')" class="btn-xs btn-gold">+ Add Product</button></div>
-<div id="list">Loading from Neon...</div>
-</div>
+<div id="products"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-weight:800">Products — <span id="count">0</span> items</h3><button onclick="switchTab('add')" class="btn-xs btn-gold">+ Add Product</button></div><div id="list">Loading...</div></div>
 
 <div id="add" style="display:none;max-width:440px">
-<h3 style="font-weight:800;margin-bottom:12px">Add New Product to Neon Global</h3>
-<input id="pName" class="input" placeholder="Product Name e.g. Porsche 911 White" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<div style="display:flex;gap:8px"><input id="pPrice" class="input" placeholder="Price e.g. 34 GC" style="flex:1;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff"><input id="pOrder" type="number" class="input" placeholder="Order 1" style="width:90px;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff"></div>
-<input id="pImage" class="input" placeholder="Image URL https://..." style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<input id="pStock" class="input" value="In Stock" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<button onclick="addProduct()" class="btn-xs btn-gold" style="width:100%;padding:12px;margin-top:8px">Add Product to Neon Global</button>
-<p style="font-size:11px;color:#555;margin-top:8px">This will appear instantly on homepage & webstore. Image fallback auto.</p>
+<h3 style="font-weight:800;margin-bottom:12px">Add New Product</h3>
+<input id="pName" placeholder="Product Name" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
+<div style="display:flex;gap:8px"><input id="pPrice" placeholder="Price e.g. 34 GC" style="flex:1;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff"><input id="pOrder" type="number" placeholder="Order 1" style="width:90px;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff"></div>
+<input id="pImage" placeholder="Image URL" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
+<input id="pStock" value="In Stock" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
+<button onclick="addProduct()" class="btn-xs btn-gold" style="width:100%;padding:12px;margin-top:8px">Add Product</button>
 </div>
 </div>
 
 <script>
-if(!localStorage.getItem('gbc_staff')){ location.href='staff-login.html'; }
+// FIXED AUTH - NO INSTANT REDIRECT
+function checkAuth(){
+ const s=localStorage.getItem('gbc_staff');
+ const statusEl=document.getElementById('authStatus');
+ if(s){
+  statusEl.innerText='Logged in as: '+JSON.parse(s).user+' • Panel will stay open (loop fixed)';
+  statusEl.style.color='#6f6';
+  return true;
+ } else {
+  statusEl.innerText='Not logged in — redirecting to staff-login in 2s...';
+  setTimeout(()=>location.href='staff-login.html',2000);
+  return false;
+ }
+}
 const API='/api/products';
-let products=[];
 async function load(){
+ if(!checkAuth()) return;
  const el=document.getElementById('list'); el.innerHTML='Loading Neon...';
  try{
   const r=await fetch(API); const d=await r.json();
-  products=d.products||d||[];
+  const products=d.products||d||[];
   document.getElementById('count').innerText=products.length;
+  if(products.length===0){ el.innerHTML='<p style="color:#c9a86a">Neon empty. Run SQL to add products.<br>INSERT INTO products... (4 rows)</p>'; return; }
   el.innerHTML='';
   products.sort((a,b)=>(a.display_order||0)-(b.display_order||0)).forEach(p=>{
-   el.innerHTML+=`<div class="prod-row">
-   <img src="${p.image||'https://via.placeholder.com/56'}" onerror="this.src='https://via.placeholder.com/56'">
-   <div style="flex:1;display:grid;grid-template-columns:1fr 90px 90px 60px;gap:6px">
-   <input value="${(p.name||'').replace(/"/g,'&quot;')}" onchange="quick(${p.id},'name',this.value)" placeholder="Name">
-   <input value="${p.price||''}" onchange="quick(${p.id},'price',this.value)" placeholder="Price">
-   <input value="${p.stock||'In Stock'}" onchange="quick(${p.id},'stock',this.value)" placeholder="Stock">
-   <input type="number" value="${p.display_order||0}" onchange="quick(${p.id},'display_order',this.value)" placeholder="Order">
-   </div>
-   <button class="btn-xs btn-del" onclick="delProd(${p.id})">Delete</button>
-   </div>`;
+   el.innerHTML+=`<div class="prod-row"><img src="${p.image||''}" onerror="this.src='https://via.placeholder.com/56'"><div style="flex:1;display:grid;grid-template-columns:1fr 90px 60px;gap:6px"><input value="${(p.name||'').replace(/"/g,'&quot;')}" onchange="quick(${p.id},'name',this.value)"><input value="${p.price||''}" onchange="quick(${p.id},'price',this.value)"><input type="number" value="${p.display_order||0}" onchange="quick(${p.id},'display_order',this.value)"></div><button class="btn-xs btn-del" onclick="delProd(${p.id})">Delete</button></div>`;
   });
-  if(!products.length) el.innerHTML='<p style="color:#555">No products — add first product</p>';
- }catch(e){ el.innerHTML='<p style="color:#f88">Error: '+e.message+' — need api/products.js</p>'; }
+ }catch(e){ el.innerHTML='<p style="color:#f88">API Error: '+e.message+' — check /api/products</p>'; }
 }
 async function quick(id,field,val){ await fetch(API,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,[field]:val})}); }
-async function delProd(id){ if(!confirm('DELETE this product from Neon? Homepage will update instantly!')) return; await fetch(API,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); load(); }
-async function addProduct(){
- const body={name:document.getElementById('pName').value,price:document.getElementById('pPrice').value,stock:document.getElementById('pStock').value,image:document.getElementById('pImage').value,display_order:parseInt(document.getElementById('pOrder').value)||0};
- if(!body.name||!body.price) return alert('Name & Price required');
- await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
- document.getElementById('pName').value=''; document.getElementById('pImage').value=''; document.getElementById('pPrice').value='';
- alert('Added! Check homepage'); switchTab('products'); load();
-}
-function switchTab(t){ document.getElementById('products').style.display=t==='products'?'block':'none'; document.getElementById('add').style.display=t==='add'?'block':'none'; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); const el=document.getElementById('t-'+t); if(el) el.classList.add('active'); if(t==='products') load(); }
-load();
+async function delProd(id){ if(!confirm('DELETE from Neon?')) return; await fetch(API,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); load(); }
+async function addProduct(){ const body={name:document.getElementById('pName').value,price:document.getElementById('pPrice').value,stock:document.getElementById('pStock').value,image:document.getElementById('pImage').value,display_order:parseInt(document.getElementById('pOrder').value)||0}; if(!body.name||!body.price) return alert('Name & Price required'); await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); alert('Added!'); switchTab('products'); load(); }
+function switchTab(t){ document.getElementById('products').style.display=t==='products'?'block':'none'; document.getElementById('add').style.display=t==='add'?'block':'none'; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById('t-'+t)?.classList.add('active'); if(t==='products') load(); }
+checkAuth(); load();
 </script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
+</body></html>
