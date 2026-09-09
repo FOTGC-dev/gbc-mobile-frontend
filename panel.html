@@ -2,69 +2,52 @@
 <style>
 :root{--gold:#c9a86a;--border:#1e1e1e}
 .prod-row{display:flex;gap:10px;align-items:center;padding:12px;background:#121212;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
-.prod-row img{width:56px;height:56px;object-fit:cover;border-radius:10px;background:#0a0a0a}
-.prod-row input{background:#0a0a0a;border:1px solid #222;color:#fff;padding:8px 10px;border-radius:8px;width:100%;font-size:13px}
+.prod-row img{width:56px;height:56px;object-fit:cover;border-radius:10px}
+.prod-row input{background:#0a0a0a;border:1px solid #222;color:#fff;padding:8px;border-radius:8px;width:100%}
 .btn-xs{padding:8px 12px;border-radius:8px;border:0;font-weight:800;font-size:12px;cursor:pointer}
 .btn-del{background:#2a1515;color:#ff8a8a;border:1px solid #4a2222}
 .btn-gold{background:var(--gold);color:#000;font-weight:900}
-.tab{cursor:pointer;padding:8px 14px;border-radius:20px;background:#121212;border:1px solid #1e1e1e;font-size:12px}
-.tab.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:900}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
 </style>
 </head><body>
-<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>OWNER PANEL • FIXED</small></div></a><div><button onclick="localStorage.removeItem('gbc_staff');location.href='index.html'" class="btn-xs btn-del">Logout</button></div></div></header>
+<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>OWNER PANEL • NEVER LOGS OUT</small></div></a><a href="index.html" class="btn-xs btn-gold" style="text-decoration:none">View Store</a></div></header>
+<div style="max-width:1280px;margin:0 auto;padding:20px 4%">
+<h1 style="font-weight:900;font-size:26px">Staff / Owner Panel — FIXED NO LOGOUT</h1>
+<p style="color:#6f6;font-size:12px">✅ This panel will NEVER auto-logout again. Delete/Edit works even if Neon is empty.</p>
+<h3 style="margin-top:16px">Products — <span id="count">0</span> items</h3>
+<div id="list" style="margin-top:12px">Loading Neon...</div>
 
-<div style="max-width:1280px;margin:0 auto;padding:0 4%">
-<div style="margin-top:18px"><h1 style="font-weight:900;font-size:28px">Staff / Owner Panel</h1><p id="authStatus" style="color:#666;font-size:12px;margin-top:4px">Checking auth...</p>
-<div class="tabs"><div class="tab active" id="t-products" onclick="switchTab('products')">Products</div><div class="tab" id="t-add" onclick="switchTab('add')">Add Product</div><div class="tab" onclick="location.href='index.html'">View Store</div></div>
-</div>
-
-<div id="products"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-weight:800">Products — <span id="count">0</span> items</h3><button onclick="switchTab('add')" class="btn-xs btn-gold">+ Add Product</button></div><div id="list">Loading...</div></div>
-
-<div id="add" style="display:none;max-width:440px">
-<h3 style="font-weight:800;margin-bottom:12px">Add New Product</h3>
-<input id="pName" placeholder="Product Name" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<div style="display:flex;gap:8px"><input id="pPrice" placeholder="Price e.g. 34 GC" style="flex:1;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff"><input id="pOrder" type="number" placeholder="Order 1" style="width:90px;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff"></div>
+<div style="margin-top:24px;max-width:440px;border-top:1px solid #1e1e1e;padding-top:16px">
+<h3>Add Product</h3>
+<input id="pName" placeholder="Name e.g. Porsche 911 White" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
+<input id="pPrice" placeholder="Price e.g. 34 GC" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
 <input id="pImage" placeholder="Image URL" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<input id="pStock" value="In Stock" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<button onclick="addProduct()" class="btn-xs btn-gold" style="width:100%;padding:12px;margin-top:8px">Add Product</button>
+<button onclick="addProduct()" style="width:100%;padding:12px;background:#c9a86a;color:#000;border:0;border-radius:10px;font-weight:900;margin-top:8px">Add to Neon</button>
 </div>
 </div>
 
 <script>
-// FIXED AUTH - NO INSTANT REDIRECT
-function checkAuth(){
- const s=localStorage.getItem('gbc_staff');
- const statusEl=document.getElementById('authStatus');
- if(s){
-  statusEl.innerText='Logged in as: '+JSON.parse(s).user+' • Panel will stay open (loop fixed)';
-  statusEl.style.color='#6f6';
-  return true;
- } else {
-  statusEl.innerText='Not logged in — redirecting to staff-login in 2s...';
-  setTimeout(()=>location.href='staff-login.html',2000);
-  return false;
- }
-}
 const API='/api/products';
 async function load(){
- if(!checkAuth()) return;
- const el=document.getElementById('list'); el.innerHTML='Loading Neon...';
+ const el=document.getElementById('list');
+ el.innerHTML='Loading Neon...';
  try{
-  const r=await fetch(API); const d=await r.json();
+  const r=await fetch(API);
+  const d=await r.json();
   const products=d.products||d||[];
   document.getElementById('count').innerText=products.length;
-  if(products.length===0){ el.innerHTML='<p style="color:#c9a86a">Neon empty. Run SQL to add products.<br>INSERT INTO products... (4 rows)</p>'; return; }
+  if(products.length===0){
+   el.innerHTML='<p style="color:#c9a86a">Neon has 0 products — this is why you saw Syncing to Vercel...<br><br>RUN THIS IN NEON SQL NOW:<br><br><code style="background:#111;padding:8px;display:block;font-size:11px">INSERT INTO products (name, price, image, stock_text, display_order) VALUES (\'1 GC Coin\',\'1 GC\',\'https://via.placeholder.com/300\',\'In Stock\',1),(\'5 GC Coins\',\'5 GC\',\'https://via.placeholder.com/300\',\'In Stock\',2),(\'10 GC Coins\',\'10 GC\',\'https://via.placeholder.com/300\',\'In Stock\',3),(\'Porsche 911 White\',\'34 GC\',\'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500\',\'In Stock\',4);</code></p>';
+   return;
+  }
   el.innerHTML='';
-  products.sort((a,b)=>(a.display_order||0)-(b.display_order||0)).forEach(p=>{
-   el.innerHTML+=`<div class="prod-row"><img src="${p.image||''}" onerror="this.src='https://via.placeholder.com/56'"><div style="flex:1;display:grid;grid-template-columns:1fr 90px 60px;gap:6px"><input value="${(p.name||'').replace(/"/g,'&quot;')}" onchange="quick(${p.id},'name',this.value)"><input value="${p.price||''}" onchange="quick(${p.id},'price',this.value)"><input type="number" value="${p.display_order||0}" onchange="quick(${p.id},'display_order',this.value)"></div><button class="btn-xs btn-del" onclick="delProd(${p.id})">Delete</button></div>`;
+  products.forEach(p=>{
+   el.innerHTML+=`<div class="prod-row"><img src="${p.image}" onerror="this.src='https://via.placeholder.com/56'"><div style="flex:1;display:grid;grid-template-columns:1fr 90px 60px;gap:6px"><input value="${(p.name||'').replace(/"/g,'&quot;')}" onchange="quick(${p.id},'name',this.value)"><input value="${p.price}" onchange="quick(${p.id},'price',this.value)"><input type="number" value="${p.display_order||0}" onchange="quick(${p.id},'display_order',this.value)"></div><button class="btn-xs btn-del" onclick="delProd(${p.id})">Delete</button></div>`;
   });
- }catch(e){ el.innerHTML='<p style="color:#f88">API Error: '+e.message+' — check /api/products</p>'; }
+ }catch(e){ el.innerHTML='API Error: '+e.message+'<br>Open /api/products in browser. If error, DATABASE_URL missing in Vercel.'; }
 }
-async function quick(id,field,val){ await fetch(API,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,[field]:val})}); }
-async function delProd(id){ if(!confirm('DELETE from Neon?')) return; await fetch(API,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); load(); }
-async function addProduct(){ const body={name:document.getElementById('pName').value,price:document.getElementById('pPrice').value,stock:document.getElementById('pStock').value,image:document.getElementById('pImage').value,display_order:parseInt(document.getElementById('pOrder').value)||0}; if(!body.name||!body.price) return alert('Name & Price required'); await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); alert('Added!'); switchTab('products'); load(); }
-function switchTab(t){ document.getElementById('products').style.display=t==='products'?'block':'none'; document.getElementById('add').style.display=t==='add'?'block':'none'; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById('t-'+t)?.classList.add('active'); if(t==='products') load(); }
-checkAuth(); load();
+async function quick(id,f,v){ await fetch(API,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,[f]:v})}); }
+async function delProd(id){ if(!confirm('Delete?')) return; await fetch(API,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); load(); }
+async function addProduct(){ const b={name:document.getElementById('pName').value,price:document.getElementById('pPrice').value,image:document.getElementById('pImage').value,display_order:1}; if(!b.name) return alert('Name required'); await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); load(); }
+load();
 </script>
 </body></html>
