@@ -1,53 +1,99 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Owner Panel - GBC</title><link rel="stylesheet" href="style.css"/>
-<style>
-:root{--gold:#c9a86a;--border:#1e1e1e}
-.prod-row{display:flex;gap:10px;align-items:center;padding:12px;background:#121212;border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
-.prod-row img{width:56px;height:56px;object-fit:cover;border-radius:10px}
-.prod-row input{background:#0a0a0a;border:1px solid #222;color:#fff;padding:8px;border-radius:8px;width:100%}
-.btn-xs{padding:8px 12px;border-radius:8px;border:0;font-weight:800;font-size:12px;cursor:pointer}
-.btn-del{background:#2a1515;color:#ff8a8a;border:1px solid #4a2222}
-.btn-gold{background:var(--gold);color:#000;font-weight:900}
-</style>
-</head><body>
-<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>OWNER PANEL • NEVER LOGS OUT</small></div></a><a href="index.html" class="btn-xs btn-gold" style="text-decoration:none">View Store</a></div></header>
-<div style="max-width:1280px;margin:0 auto;padding:20px 4%">
-<h1 style="font-weight:900;font-size:26px">Staff / Owner Panel — FIXED NO LOGOUT</h1>
-<p style="color:#6f6;font-size:12px">✅ This panel will NEVER auto-logout again. Delete/Edit works even if Neon is empty.</p>
-<h3 style="margin-top:16px">Products — <span id="count">0</span> items</h3>
-<div id="list" style="margin-top:12px">Loading Neon...</div>
-
-<div style="margin-top:24px;max-width:440px;border-top:1px solid #1e1e1e;padding-top:16px">
-<h3>Add Product</h3>
-<input id="pName" placeholder="Name e.g. Porsche 911 White" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<input id="pPrice" placeholder="Price e.g. 34 GC" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<input id="pImage" placeholder="Image URL" style="width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff">
-<button onclick="addProduct()" style="width:100%;padding:12px;background:#c9a86a;color:#000;border:0;border-radius:10px;font-weight:900;margin-top:8px">Add to Neon</button>
-</div>
-</div>
-
-<script>
-const API='/api/products';
-async function load(){
- const el=document.getElementById('list');
- el.innerHTML='Loading Neon...';
- try{
-  const r=await fetch(API);
-  const d=await r.json();
-  const products=d.products||d||[];
-  document.getElementById('count').innerText=products.length;
-  if(products.length===0){
-   el.innerHTML='<p style="color:#c9a86a">Neon has 0 products — this is why you saw Syncing to Vercel...<br><br>RUN THIS IN NEON SQL NOW:<br><br><code style="background:#111;padding:8px;display:block;font-size:11px">INSERT INTO products (name, price, image, stock_text, display_order) VALUES (\'1 GC Coin\',\'1 GC\',\'https://via.placeholder.com/300\',\'In Stock\',1),(\'5 GC Coins\',\'5 GC\',\'https://via.placeholder.com/300\',\'In Stock\',2),(\'10 GC Coins\',\'10 GC\',\'https://via.placeholder.com/300\',\'In Stock\',3),(\'Porsche 911 White\',\'34 GC\',\'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500\',\'In Stock\',4);</code></p>';
-   return;
-  }
-  el.innerHTML='';
-  products.forEach(p=>{
-   el.innerHTML+=`<div class="prod-row"><img src="${p.image}" onerror="this.src='https://via.placeholder.com/56'"><div style="flex:1;display:grid;grid-template-columns:1fr 90px 60px;gap:6px"><input value="${(p.name||'').replace(/"/g,'&quot;')}" onchange="quick(${p.id},'name',this.value)"><input value="${p.price}" onchange="quick(${p.id},'price',this.value)"><input type="number" value="${p.display_order||0}" onchange="quick(${p.id},'display_order',this.value)"></div><button class="btn-xs btn-del" onclick="delProd(${p.id})">Delete</button></div>`;
-  });
- }catch(e){ el.innerHTML='API Error: '+e.message+'<br>Open /api/products in browser. If error, DATABASE_URL missing in Vercel.'; }
+<!DOCTYPE html>
+<html lang="en">
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
 }
-async function quick(id,f,v){ await fetch(API,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,[f]:v})}); }
-async function delProd(id){ if(!confirm('Delete?')) return; await fetch(API,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); load(); }
-async function addProduct(){ const b={name:document.getElementById('pName').value,price:document.getElementById('pPrice').value,image:document.getElementById('pImage').value,display_order:1}; if(!b.name) return alert('Name required'); await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); load(); }
-load();
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>GBC Panel • Addable Sections</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;color:#fff;font-family:Inter,sans-serif}
+.header{position:sticky;top:0;z-index:20;background:#070707;border-bottom:1px solid #1a1a1a;padding:14px 4%;display:flex;justify-content:space-between;align-items:center}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:360px;background:#111;border-right:1px solid #1e1e1e;padding:16px;overflow:auto}
+.preview{flex:1;background:#000;padding:16px;display:flex;justify-content:center;overflow:auto}
+.phone{width:390px;min-height:800px;background:#070707;border:1px solid #222;border-radius:28px;overflow:hidden}
+.card{background:#151515;border:1px solid #1e1e1e;border-radius:14px;padding:12px;margin-bottom:10px}
+.btn{padding:8px 12px;border-radius:999px;border:0;font-weight:700;font-size:11px;cursor:pointer}
+.btn-gold{background:#c9a86a;color:#000}.btn-dark{background:#222;color:#fff}.btn-del{background:#2a1515;color:#ff8a8a}
+.input{width:100%;padding:8px 10px;border-radius:10px;border:1px solid #222;background:#0a0a0a;color:#fff;margin:4px 0;font-size:12px}
+.sec-row{display:flex;gap:8px;align-items:center;background:#0f0f0f;border:1px solid #1e1e1e;padding:8px 10px;border-radius:12px;margin-bottom:6px}
+.handle{cursor:grab;color:#555}
+</style>
+</head>
+<body>
+<div class="header"><b>GBC SECTION BUILDER • Addable/Removable</b><div style="display:flex;gap:8px"><button class="btn btn-dark" onclick="reset()">Reset</button><button class="btn btn-gold" onclick="save()">Save → Live Store</button></div></div>
+<div class="layout">
+<div class="sidebar">
+<h3 style="font-size:13px;margin-bottom:10px">Add Section</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px">
+<button class="btn btn-dark" onclick="addSec('hero')">+ Hero Premium</button>
+<button class="btn btn-dark" onclick="addSec('stats')">+ Stats 15k+</button>
+<button class="btn btn-dark" onclick="addSec('banner')">+ Banner</button>
+<button class="btn btn-dark" onclick="addSec('currency')">+ Currency Packs</button>
+<button class="btn btn-dark" onclick="addSec('cars')">+ Luxury Cars</button>
+<button class="btn btn-dark" onclick="addSec('mansions')">+ Mansions</button>
+<button class="btn btn-dark" onclick="addSec('businesses')">+ Businesses</button>
+<button class="btn btn-dark" onclick="addSec('donator')">+ Donator Packs</button>
+</div>
+<h3 style="font-size:13px;margin-bottom:8px">Current Sections (drag ≡ to reorder)</h3>
+<div id="list"></div>
+<div style="margin-top:16px;padding:10px;background:#1a1a0a;border-radius:12px;font-size:11px;color:#c9a86a">Tip: Click ≡ and drag to reorder. Sections render in this order on index.html. Toggle 👁️ to hide without deleting.</div>
+</div>
+<div class="preview"><div class="phone"><iframe id="prev" style="width:100%;height:100%;border:0;background:#070707"></iframe></div></div>
+</div>
+<script>
+const DEFAULT = [
+{type:'hero', id:Date.now()+1, data:{title:'GRAND BILLIONAIRE CITY\nPREMIUM OFFICIAL MARKET'}},
+{type:'stats', id:Date.now()+2},
+{type:'banner', id:Date.now()+3},
+{type:'currency', id:Date.now()+4},
+{type:'cars', id:Date.now()+5},
+{type:'mansions', id:Date.now()+6},
+{type:'businesses', id:Date.now()+7},
+{type:'donator', id:Date.now()+8}
+];
+function get(){try{const s=localStorage.getItem('gbc_sections_v2'); return s?JSON.parse(s):DEFAULT}catch{return DEFAULT}}
+function set(s){localStorage.setItem('gbc_sections_v2', JSON.stringify(s))}
+let secs=get();
+function renderList(){
+ const el=document.getElementById('list'); el.innerHTML='';
+ secs.forEach((sec,i)=>{
+  el.innerHTML+=`<div class="sec-row" draggable="true" ondragstart="drag=${i}" ondragover="event.preventDefault()" ondrop="drop(${i})"><span class="handle">≡</span><span style="flex:1;font-size:12px;font-weight:700">${i+1}. ${sec.type}</span><button class="btn btn-dark" onclick="toggle(${i})">${sec.hidden?'👁️‍🗨️':'👁️'}</button><button class="btn btn-del" onclick="del(${i})">✕</button></div>`;
+ });
+}
+let drag=null;
+function drop(to){ if(drag===null) return; const item=secs.splice(drag,1)[0]; secs.splice(to,0,item); drag=null; set(secs); renderList(); renderPreview();}
+function addSec(type){ secs.push({type, id:Date.now(), data:{}}); set(secs); renderList(); renderPreview();}
+function del(i){ if(!confirm('Delete this section?')) return; secs.splice(i,1); set(secs); renderList(); renderPreview();}
+function toggle(i){ secs[i].hidden=!secs[i].hidden; set(secs); renderList(); renderPreview();}
+function reset(){ if(!confirm('Reset to default sections?')) return; localStorage.removeItem('gbc_sections_v2'); secs=DEFAULT.slice(); set(secs); renderList(); renderPreview();}
+function save(){ set(secs); alert('Saved! Open index.html to see live store with your sections order'); renderPreview();}
+function renderPreview(){
+ const iframe=document.getElementById('prev');
+ const doc=iframe.contentDocument || iframe.contentWindow.document;
+ // copy index.html rendering logic into iframe
+ const html = document.documentElement.outerHTML; // placeholder, we will reload index via src
+ iframe.src='index.html?preview=1&ts='+Date.now();
+}
+renderList();
+renderPreview();
 </script>
-</body></html>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>
