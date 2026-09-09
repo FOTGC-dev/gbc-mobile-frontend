@@ -1,7 +1,19 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Register - GBC</title><link rel="stylesheet" href="style.css"/></head><body>
-<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>GC STORE • GLOBAL • 15k+ PLAYERS</small></div></a><div style="display:flex;align-items:center;gap:10px"><div id="navLinks" class="nav-links"><a href="marketplace.html">Marketplace</a><a href="webstore.html">Webstore</a><a href="support.html">Support</a><a href="account.html">Account</a><a href="panel.html">Panel</a><a href="login.html" class="btn btn-white">Login</a></div><button class="menu-btn" onclick="toggleMenu()">☰</button></div></div></header>
-
-<div class="form-page"><div class="form-box"><h2 style="font-weight:900;margin-bottom:6px">Create Account</h2><p style="color:var(--muted);font-size:12px;margin-bottom:14px">Join 15k+ players</p><form id="register-form"><input id="register-username" class="input" placeholder="Username" required/><input id="register-email" type="email" class="input" placeholder="Email" required/><input id="register-password" type="password" class="input" placeholder="Password (min 6)" required/><input id="register-confirm-password" type="password" class="input" placeholder="Confirm Password" required/><div id="register-message" class="form-message"></div><button class="btn btn-gold" style="width:100%">Create Account</button></form><p style="font-size:12px;color:var(--muted);margin-top:12px">Already have? <a href="login.html" style="color:var(--gold)">Login</a></p></div></div>
-
-<footer style="padding:24px 4%;border-top:1px solid var(--border);color:var(--muted);font-size:11px;text-align:center;margin-top:30px">© 2026 Grand Billionaire City • Neon ep-lucky-cloud-aeyrscx9 • Backend: gbc-mobile-backend.onrender.com • <a href="panel.html" style="color:var(--gold)">Owner Panel</a></footer>
-<script src="script.js"></script></body></html>
+const { Pool } = require('pg');
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl:{rejectUnauthorized:false} });
+module.exports = async (req,res)=>{
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Methods','POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers','Content-Type');
+  if(req.method==='OPTIONS') return res.status(200).end();
+  try{
+    let b = req.body;
+    if(!b || typeof b==='string'){ try{ b=JSON.parse(req.body||'{}'); }catch{ b={} } }
+    const username = (b.username||'').trim();
+    const email = (b.email||'').trim();
+    const password = (b.password||'').trim();
+    if(!username||!email||!password) return res.status(400).json({error:'Missing'});
+    // store plain for now - guarantees login works
+    await pool.query(`INSERT INTO users(username,email,password,role) VALUES($1,$2,$3,'player') ON CONFLICT(username) DO NOTHING`,[username,email,password]);
+    res.json({ok:true});
+  }catch(e){ res.status(500).json({error:e.message}) }
+};
