@@ -1,8 +1,18 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Home - GBC</title><link rel="stylesheet" href="style.css"/></head><body>
-<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>GC STORE • GLOBAL • 15k+ PLAYERS</small></div></a><div style="display:flex;align-items:center;gap:10px"><div id="navLinks" class="nav-links"><a href="marketplace.html">Marketplace</a><a href="webstore.html">Webstore</a><a href="support.html">Support</a><a href="account.html">Account</a><a href="panel.html">Panel</a><a href="login.html" class="btn btn-white">Login</a></div><button class="menu-btn" onclick="toggleMenu()">☰</button></div></div></header>
+<header class="header"><div class="nav"><a href="index.html" class="logo" id="secretLogo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>GC STORE • GLOBAL • 15k+ PLAYERS</small></div></a><div style="display:flex;align-items:center;gap:10px"><div id="navLinks" class="nav-links"><a href="marketplace.html">Marketplace</a><a href="webstore.html">Webstore</a><a href="support.html">Support</a></div><button class="menu-btn" onclick="toggleMenu()">☰</button></div></div></header>
 
-<div class="hero"><div id="prodCount" class="status-pill">🟢 Global Mode - 4 products from Neon - Backend Live</div><h1 style="font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.05">GRAND BILLIONAIRE CITY<br/><span style="color:var(--gold)">MOBILE STORE</span></h1><p style="color:var(--muted);max-width:560px;margin-top:12px;font-size:14px">Premium SA-MP marketplace. Buy GC Coins, VIP, ranks, cars. All synced to Neon global database. Fixed Supabase Invalid API key issue. 15k+ players worldwide.</p><div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><a href="register.html" class="btn btn-gold">Create Account</a><a href="webstore.html" class="btn">Explore Store</a></div></div>
+<div class="hero"><div id="prodCount" class="status-pill">🟢 Global Mode - 4 products from Neon - Backend Live</div><h1 style="font-size:clamp(28px,6vw,44px);font-weight:900;line-height:1.05">GRAND BILLIONAIRE CITY<br/><span style="color:var(--gold)">MOBILE STORE</span></h1><p style="color:var(--muted);max-width:560px;margin-top:12px;font-size:14px">Premium SA-MP marketplace. Buy GC Coins, VIP, ranks, cars. All synced to Neon global database. 15k+ players worldwide.</p><div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap"><a href="webstore.html" class="btn btn-gold">Explore Store</a></div></div>
 <div style="max-width:1280px;margin:0 auto;padding:0 4%"><h3 style="font-weight:900;margin-bottom:12px">Latest Products</h3><div id="store-grid" class="grid-3"></div></div>
 
-<footer style="padding:24px 4%;border-top:1px solid var(--border);color:var(--muted);font-size:11px;text-align:center;margin-top:30px">© 2026 Grand Billionaire City • Neon ep-lucky-cloud-aeyrscx9 • Backend: gbc-mobile-backend.onrender.com • <a href="panel.html" style="color:var(--gold)">Owner Panel</a></footer>
-<script src="script.js"></script></body></html>
+<footer style="padding:24px 4%;border-top:1px solid var(--border);color:var(--muted);font-size:11px;text-align:center;margin-top:30px">© 2026 Grand Billionaire City • Neon Global • 15k+ Players Worldwide</footer>
+<script src="script.js"></script>
+<script>
+// HIDDEN STAFF LOGIN - NO HINT ON PAGE
+let c=0,t=null;const logo=document.getElementById('secretLogo');
+logo.addEventListener('click',e=>{e.preventDefault();c++;if(c>=5)location.href='staff-login.html';clearTimeout(t);t=setTimeout(()=>c=0,2000);});
+let p;logo.addEventListener('touchstart',()=>{p=setTimeout(()=>location.href='staff-login.html',3000)});logo.addEventListener('touchend',()=>clearTimeout(p));
+logo.addEventListener('mousedown',()=>{p=setTimeout(()=>location.href='staff-login.html',3000)});logo.addEventListener('mouseup',()=>clearTimeout(p));
+if(location.search.includes('staff')) location.href='staff-login.html';
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+</script>
+</body></html>
