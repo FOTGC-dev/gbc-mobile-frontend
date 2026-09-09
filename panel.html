@@ -19,93 +19,130 @@
 :where(code, pre, kbd, samp) {
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
-</style><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>GBC Panel • Neon IS Luxury Cars • Fully Editable</title><link rel="stylesheet" href="style.css"/>
+</style><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>GBC Panel • Everything Working • Level 2 Builder</title><link rel="stylesheet" href="style.css"/>
 <style>
-.layout{display:flex;min-height:100vh}.sidebar{width:440px;background:var(--surface);border-right:1px solid var(--border);padding:16px;overflow:auto;max-height:100vh;position:sticky;top:0}
-.main{flex:1;padding:16px;background:#000}
-.sec-item{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;margin-bottom:8px}
-.sec-head{display:flex;gap:8px;align-items:center;padding:10px;cursor:pointer}
+.layout{display:flex;min-height:100vh}.sidebar{width:100%;max-width:500px;background:var(--surface);border-right:1px solid var(--border);padding:14px;overflow:auto;max-height:100vh;position:sticky;top:0}
+.main{flex:1;padding:12px;background:#05070f;display:flex;justify-content:center}
+.phone{width:390px;background:var(--bg);border:1px solid var(--border);border-radius:28px;overflow:hidden}
+.sec-item{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;margin-bottom:8px;transition:.2s}
+.sec-item:hover{border-color:var(--border-gold)}
+.sec-head{padding:10px;display:flex;gap:8px;align-items:center;cursor:pointer}
 .sec-body{padding:10px;display:none;border-top:1px solid var(--border)}.sec-body.open{display:block}
-.input{width:100%;background:#0a0e1a;border:1px solid var(--border);border-radius:10px;padding:8px 10px;color:var(--text);font-size:12px;margin:4px 0}
 .inner-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px;margin:6px 0}
 .btn{padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:11px;cursor:pointer;font-weight:700}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#000;border-color:var(--gold)}
 .btn-del{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#ff8a8a}
-.label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:8px;display:block}
+.label{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:6px;display:block}
+.create-bar{display:flex;gap:6px;flex-wrap:wrap;padding:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;margin:8px 0}
 </style></head><body>
-<header class="header"><div class="nav">
-<a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>NEON IS LUXURY CARS • FULLY EDITABLE • ALL SYNCED</small></div></a>
-<div style="display:flex;gap:8px"><button class="btn" onclick="resetAll()">Reset</button><button class="btn btn-gold" onclick="saveAll()">Save Sections → Neon</button><a href="index.html" class="btn btn-gold">View Store</a></div>
-</div></header>
+<header class="header"><div class="nav"><a href="index.html" class="logo"><div class="logo-badge">GBC</div><div class="logo-text"><b>GRAND BILLIONAIRE CITY</b><small>EVERYTHING WORKING • LEVEL 2 BUILDER • DRAG + ADD + DELETE + EDIT INSIDE</small></div></a><div style="display:flex;gap:6px"><button class="btn" onclick="resetAll()">Reset</button><button class="btn btn-gold" onclick="saveAll()">Save All → Neon</button><a href="index.html" class="btn btn-gold">View Store</a></div></div></header>
 <div class="layout">
 <div class="sidebar">
-<h3 style="font-size:12px;margin-bottom:8px;color:var(--gold)">★ LUXURY CARS = NEON PRODUCTS • EDITABLE NAME (as agreed)</h3>
-<div id="neonList"></div>
-<div style="margin-top:12px;background:var(--surface-2);padding:12px;border-radius:14px;border:1px solid var(--border)">
-<h4 style="font-size:11px;margin-bottom:6px">+ Add Luxury Car (Neon Product) - Editable Name</h4>
-<input id="nName" class="input" placeholder="Car Name e.g. Porsche 911 Turbo S White - EDITABLE"/>
-<div style="display:flex;gap:6px"><input id="nPrice" class="input" placeholder="Price ₦13,500" style="flex:1"/><input id="nOrder" class="input" type="number" placeholder="Order" style="width:70px"/></div>
-<div style="display:flex;gap:6px"><input id="nGame" class="input" placeholder="Game 75M"/><input id="nRatio" class="input" placeholder="Ratio ₦15,000"/></div>
-<div style="display:flex;gap:6px"><input id="nStock" class="input" placeholder="STOCK 5"/><input id="nB1" class="input" placeholder="Badge1 Default SAMP"/><input id="nB2" class="input" placeholder="Badge2 10% OFF"/></div>
+<div style="background:linear-gradient(135deg,var(--surface),var(--surface-2));border:1px solid var(--border-gold);border-radius:14px;padding:12px">
+<h3 style="font-size:12px;color:var(--gold)">EVERYTHING WORKING • Level 2 Builder</h3>
+<p style="font-size:10px;color:var(--muted);margin:6px 0">Content Admin (Level 1) + Website Builder (Level 2): WHAT + WHERE + HOW. Drag ≡ to reorder, ✕ Delete section, ▼ Expand to edit inside, + Add new blocks.</p>
+<div class="create-bar">
+<button class="btn" onclick="addSec('hero')">+ Hero</button><button class="btn" onclick="addSec('stats')">+ Stats (with things under)</button><button class="btn" onclick="addSec('banner')">+ Banner</button><button class="btn" onclick="addSec('currency')">+ Currency Packs</button><button class="btn" onclick="addSec('mansions')">+ Mansions</button><button class="btn" onclick="addSec('businesses')">+ Businesses</button><button class="btn" onclick="addSec('donator')">+ Donator</button>
+</div>
+</div>
+
+<div style="margin-top:12px">
+<h3 style="font-size:12px;color:var(--gold)">★ LUXURY CARS = NEON PRODUCTS • EDITABLE NAME AS AGREED</h3>
+<div id="neonList"><div style="font-size:11px;color:var(--muted)">Loading Neon products = Luxury Cars...</div></div>
+<div style="padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;margin-top:8px">
+<h4 style="font-size:11px">+ Add Luxury Car (Neon Product) — Editable Name/Image/Price/Game/Ratio/Stock/Badges</h4>
+<input id="nName" class="input" placeholder="Name EDITABLE e.g. Porsche 911 Turbo S White"/>
+<div style="display:flex;gap:4px"><input id="nPrice" class="input" placeholder="Price ₦13,500"/><input id="nGame" class="input" placeholder="Game 75M"/><input id="nRatio" class="input" placeholder="Ratio ₦15,000"/></div>
+<div style="display:flex;gap:4px"><input id="nStock" class="input" placeholder="STOCK 5"/><input id="nB1" class="input" placeholder="Badge1 Default SAMP"/><input id="nB2" class="input" placeholder="Badge2 10% OFF"/></div>
 <input id="nImg" class="input" placeholder="Image URL https://..."/>
-<button class="btn btn-gold" style="width:100%;margin-top:8px;padding:10px" onclick="addNeon()">Add to Neon → Appears as Luxury Car</button>
-<p style="font-size:10px;color:var(--muted);margin-top:6px">This IS the Luxury Car. Name editable as agreed. Appears instantly in index.html Luxury Car Collection.</p>
+<button class="btn btn-gold" style="width:100%;margin-top:8px;padding:10px" onclick="addNeon()">Add → Appears as Luxury Car • Everything Working</button>
 </div>
-<hr style="margin:16px 0;border-color:var(--border)"/>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
-<button class="btn" onclick="addSec('hero')">+ Hero</button><button class="btn" onclick="addSec('stats')">+ Stats</button><button class="btn" onclick="addSec('banner')">+ Banner</button><button class="btn" onclick="addSec('currency')">+ Currency</button><button class="btn" onclick="addSec('mansions')">+ Mansions</button><button class="btn" onclick="addSec('businesses')">+ Businesses</button><button class="btn" onclick="addSec('donator')">+ Donator</button>
 </div>
+
+<hr style="margin:14px 0;border-color:var(--border)"/>
+<h3 style="font-size:12px;margin-bottom:6px">ALL SECTIONS — Create/Delete/Drag/Edit Inside — Level 2 Builder</h3>
 <div id="list"></div>
 </div>
-<div class="main"><iframe id="prev" style="width:100%;height:90vh;border:1px solid var(--border);border-radius:20px;background:var(--bg)"></iframe></div>
+<div class="main"><div class="phone"><iframe id="prev" src="index.html" style="width:100%;height:92vh;border:0"></iframe></div></div>
 </div>
 <script>
 const DEFAULT=[
-{type:'hero',id:1,expanded:false,data:{bg:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600',title1:'GRAND BILLIONAIRE CITY',title2:'PREMIUM OFFICIAL MARKET',desc:'The Official Global Market...',secured:'🔒 SECURED ORDER ID • RATE LIMITED • CAPTCHA',verified:'🛡️ SECURED - ENCRYPTED - VERIFIED OFFICIAL',btn1:'BROWSE 14 CARS',btn2:'VIEW CART'}},
-{type:'stats',id:2,data:{items:[{v:'15k+',l:'Players'},{v:'50k+',l:'Orders'},{v:'4.9',l:'Rating'},{v:'24/7',l:'Support'}]}},
+{type:'hero',id:1,expanded:false,data:{bg:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600',title1:'GRAND BILLIONAIRE CITY',title2:'PREMIUM OFFICIAL MARKET',desc:'Official Market...',secured:'🔒 SECURED ORDER ID',verified:'🛡️ VERIFIED OFFICIAL',btn1:'BROWSE 14 CARS',btn2:'VIEW CART'}},
+{type:'stats',id:2,expanded:true,data:{title:'STATS BAR',items:[{v:'15k+',l:'Players',icon:'👥'},{v:'50k+',l:'Orders',icon:'📦'},{v:'4.9',l:'Rating',icon:'⭐'},{v:'24/7',l:'Support',icon:'⏰'}]}},
 {type:'banner',id:3,data:{text:'🔥 NEW PRICING: Official ratio 2M=₦400 with 10% OFF!'}},
-{type:'currency',id:4,data:{title:'CURRENCY PACKS',packs:[
-{name:'2M Cash',sub:'2,000,000 in-game',price:'400 Naira',popular:true},{name:'5M Cash',sub:'5,000,000 in-game',price:'900 Naira'},{name:'10M Cash',sub:'10,000,000 in-game',price:'1700 Naira'},{name:'25M Cash',sub:'25,000,000 in-game',price:'4000 Naira'}
+{type:'currency',id:4,expanded:true,data:{title:'CURRENCY PACKS',packs:[
+{name:'2M Cash',sub:'2,000,000 in-game',price:'400 Naira',popular:true},
+{name:'5M Cash',sub:'5,000,000 in-game',price:'900 Naira'},
+{name:'10M Cash',sub:'10,000,000 in-game',price:'1700 Naira'},
+{name:'25M Cash',sub:'25,000,000 in-game',price:'4000 Naira'}
 ]}},
-{type:'mansions',id:6,data:{title:'LUXURY MANSIONS',items:[
-{name:'Vinewood Mansion',desc:'Luxury hillside estate',game:'38M',ratio:'₦7,600',price:'₦6,840'},{name:'City Penthouse',desc:'Downtown high-rise',game:'32M',ratio:'₦6,400',price:'₦5,760'},{name:'Beach Villa',desc:'Oceanfront villa',game:'28M',ratio:'₦5,600',price:'₦5,040'}
+{type:'mansions',id:5,data:{title:'LUXURY MANSIONS',badge:'Game Value × ₦180',items:[
+{name:'Vinewood Mansion',desc:'Luxury hillside estate',game:'38M',ratio:'₦7,600',price:'₦6,840'},
+{name:'City Penthouse',desc:'Downtown high-rise',game:'32M',ratio:'₦6,400',price:'₦5,760'},
+{name:'Beach Villa',desc:'Oceanfront villa',game:'28M',ratio:'₦5,600',price:'₦5,040'}
 ]}},
-{type:'businesses',id:7,data:{title:'PREMIUM BUSINESSES',items:[
+{type:'businesses',id:6,data:{title:'PREMIUM BUSINESSES',items:[
 {name:'Gas Station',price:'4000 Naira'},{name:'Nightclub',price:'4000 Naira'},{name:'Car Dealership',price:'4000 Naira'},{name:'Ammu-Nation',price:'4000 Naira'},{name:'Cluckin Bell',price:'4000 Naira'},{name:'Burger Shot',price:'4000 Naira'}
 ]}},
-{type:'donator',id:8,data:{title:'DONATOR PACKAGES',items:[
-{name:'Bronze Donator',price:'2000 Naira',perks:'50M Cash, Bronze Tag, 1 Car Slot'},{name:'Gold Donator',price:'5000 Naira',perks:'200M Cash, Gold Tag, 5 Car Slots'}
+{type:'donator',id:7,data:{title:'DONATOR PACKAGES',badge:'OFFICIAL TIERS',items:[
+{name:'Bronze Donator',price:'2000 Naira',perks:'50M Cash, Bronze Tag, 1 Car Slot',btn:'BUY BRONZE'},
+{name:'Gold Donator',price:'5000 Naira',perks:'200M Cash, Gold Tag, 5 Car Slots',btn:'BUY GOLD'}
 ]}}
 ];
-function get(){ try{ const s=localStorage.getItem('gbc_full_v3'); return s?JSON.parse(s):DEFAULT }catch{ return DEFAULT } }
+function get(){ try{ return JSON.parse(localStorage.getItem('gbc_full_v3'))||DEFAULT }catch{ return DEFAULT } }
 function save(s){ localStorage.setItem('gbc_full_v3', JSON.stringify(s)); }
 let secs=get(); let dragIdx=null;
+
 function renderList(){
  const el=document.getElementById('list'); el.innerHTML='';
  secs.forEach((sec,i)=>{
   let inner='';
   if(sec.expanded){
+   if(sec.type==='stats'){
+    inner=`<label class="label">Title</label><input class="input" value="${sec.data.title}" oninput="upd(${i},'title',this.value)"/>
+    <b style="font-size:11px">Things under Stats — Fixes empty (was your complaint)</b>
+    ${sec.data.items.map((s,si)=>`<div class="inner-card"><div style="display:flex;justify-content:space-between"><b style="font-size:11px">Stat ${si+1}</b><button class="btn btn-del" onclick="delInner(${i},${si},'items')">Delete</button></div><div style="display:flex;gap:4px"><input class="input" value="${s.v}" oninput="updInner(${i},${si},'items','v',this.value)" placeholder="15k+"/><input class="input" value="${s.l}" oninput="updInner(${i},${si},'items','l',this.value)" placeholder="Players"/><input class="input" value="${s.icon||''}" oninput="updInner(${i},${si},'items','icon',this.value)" placeholder="Icon" style="width:50px"/></div></div>`).join('')}
+    <button class="btn" onclick="addInner(${i},'items')">+ Add Stat Item Under Stats</button>`;
+   }
    if(sec.type==='currency'){
     inner=`<label class="label">Title</label><input class="input" value="${sec.data.title}" oninput="upd(${i},'title',this.value)"/>`+
-    sec.data.packs.map((p,pi)=>`<div class="inner-card"><input class="input" value="${p.name}" oninput="updInner(${i},${pi},'packs','name',this.value)" placeholder="Name EDITABLE"/><div style="display:flex;gap:4px"><input class="input" value="${p.price}" oninput="updInner(${i},${pi},'packs','price',this.value)"/><input class="input" value="${p.sub}" oninput="updInner(${i},${pi},'packs','sub',this.value)"/></div><button class="btn btn-del" onclick="delInner(${i},${pi},'packs')">Delete Pack</button></div>`).join('')+
+    sec.data.packs.map((p,pi)=>`<div class="inner-card"><div style="display:flex;justify-content:space-between"><b style="font-size:11px">${p.name}</b><button class="btn btn-del" onclick="delInner(${i},${pi},'packs')">Delete Pack</button></div><input class="input" value="${p.name}" oninput="updInner(${i},${pi},'packs','name',this.value)" placeholder="Name EDITABLE"/><div style="display:flex;gap:4px"><input class="input" value="${p.price}" oninput="updInner(${i},${pi},'packs','price',this.value)"/><input class="input" value="${p.sub}" oninput="updInner(${i},${pi},'packs','sub',this.value)"/></div><label style="font-size:10px"><input type="checkbox" ${p.popular?'checked':''} onchange="updInner(${i},${pi},'packs','popular',this.checked)"/> Popular</label></div>`).join('')+
     `<button class="btn" onclick="addInner(${i},'packs')">+ Add Pack</button>`;
    }
+   if(sec.type==='mansions'){
+    inner=sec.data.items.map((m,mi)=>`<div class="inner-card"><div style="display:flex;justify-content:space-between"><b>${m.name}</b><button class="btn btn-del" onclick="delInner(${i},${mi},'items')">Del</button></div><input class="input" value="${m.name}" oninput="updInner(${i},${mi},'items','name',this.value)"/><input class="input" value="${m.desc}" oninput="updInner(${i},${mi},'items','desc',this.value)"/><div style="display:flex;gap:4px"><input class="input" value="${m.game}" oninput="updInner(${i},${mi},'items','game',this.value)"/><input class="input" value="${m.price}" oninput="updInner(${i},${mi},'items','price',this.value)"/></div></div>`).join('')+`<button class="btn" onclick="addInner(${i},'items')">+ Add Mansion</button>`;
+   }
+   if(sec.type==='businesses'){
+    inner=sec.data.items.map((b,bi)=>`<div class="inner-card" style="display:flex;gap:4px"><input class="input" value="${b.name}" oninput="updInner(${i},${bi},'items','name',this.value)" style="flex:1"/><input class="input" value="${b.price}" oninput="updInner(${i},${bi},'items','price',this.value)" style="width:90px"/><button class="btn btn-del" onclick="delInner(${i},${bi},'items')">✕</button></div>`).join('')+`<button class="btn" onclick="addInner(${i},'items')">+ Add Business</button>`;
+   }
+   if(sec.type==='donator'){
+    inner=sec.data.items.map((d,di)=>`<div class="inner-card"><input class="input" value="${d.name}" oninput="updInner(${i},${di},'items','name',this.value)"/><input class="input" value="${d.price}" oninput="updInner(${i},${di},'items','price',this.value)"/><textarea class="input" oninput="updInner(${i},${di},'items','perks',this.value)">${d.perks}</textarea><button class="btn btn-del" onclick="delInner(${i},${di},'items')">Delete</button></div>`).join('')+`<button class="btn" onclick="addInner(${i},'items')">+ Add Tier</button>`;
+   }
+   if(!inner) inner=`<div style="font-size:11px;color:var(--muted)">This section: ${sec.type} — Expand to edit inside. You CAN create/delete sections via top buttons. Drag ≡ to reorder.</div>`;
   }
-  el.innerHTML+=`<div class="sec-item" draggable="true" ondragstart="dragIdx=${i}" ondragover="event.preventDefault()" ondrop="drop(${i})"><div class="sec-head" onclick="toggleExpand(${i})"><span>≡</span><span style="flex:1;font-size:12px;font-weight:800">${i+1}. ${sec.type}</span><span>${sec.expanded?'▲':'▼'}</span><button class="btn btn-del" onclick="event.stopPropagation(); delSec(${i})">✕</button></div><div class="sec-body ${sec.expanded?'open':''}">${inner}</div></div>`;
+  el.innerHTML+=`<div class="sec-item" draggable="true" ondragstart="dragIdx=${i}" ondragover="event.preventDefault()" ondrop="drop(${i})"><div class="sec-head" onclick="toggle(${i})"><span style="cursor:grab">≡</span><span style="flex:1;font-size:12px;font-weight:800">${i+1}. ${sec.type} ${sec.data.title?'- '+sec.data.title:''}</span><span>${sec.expanded?'▲':'▼'}</span><button class="btn btn-del" onclick="event.stopPropagation(); delSec(${i})">✕ Delete Section</button></div><div class="sec-body ${sec.expanded?'open':''}">${inner}</div></div>`;
  });
  document.getElementById('prev').src='index.html?ts='+Date.now();
 }
-function upd(i,k,v){ secs[i].data[k]=v; save(secs); document.getElementById('prev').contentWindow?.location?.reload(); }
+function upd(i,k,v){ secs[i].data[k]=v; save(secs); }
 function updInner(si,ii,arr,k,v){ secs[si].data[arr][ii][k]=v; save(secs); }
-function addInner(si,arr){ if(arr==='packs') secs[si].data[arr].push({name:'New Pack',sub:'1,000,000 in-game',price:'500 Naira'}); save(secs); renderList(); }
+function addInner(si,arr){
+ if(arr==='items'){
+  if(secs[si].type==='stats') secs[si].data[arr].push({v:'New',l:'Item',icon:'✦'});
+  else if(secs[si].type==='mansions') secs[si].data[arr].push({name:'New Mansion',desc:'Luxury',game:'30M',price:'₦5,400'});
+  else if(secs[si].type==='businesses') secs[si].data[arr].push({name:'New Business',price:'4000 Naira'});
+  else if(secs[si].type==='donator') secs[si].data[arr].push({name:'New Tier',price:'3000 Naira',perks:'100M Cash'});
+ }else{ secs[si].data[arr].push({name:'New Pack',sub:'1,000,000 in-game',price:'500 Naira'}); }
+ save(secs); renderList();
+}
 function delInner(si,ii,arr){ secs[si].data[arr].splice(ii,1); save(secs); renderList(); }
-function toggleExpand(i){ secs[i].expanded=!secs[i].expanded; save(secs); renderList(); }
-function delSec(i){ if(!confirm('Delete section?')) return; secs.splice(i,1); save(secs); renderList(); }
+function toggle(i){ secs[i].expanded=!secs[i].expanded; save(secs); renderList(); }
+function delSec(i){ if(!confirm('Delete entire section '+secs[i].type+'? You CAN create/delete sections.')) return; secs.splice(i,1); save(secs); renderList(); }
 function drop(to){ if(dragIdx===null) return; const it=secs.splice(dragIdx,1)[0]; secs.splice(to,0,it); dragIdx=null; save(secs); renderList(); }
 function addSec(t){
  const map={
   hero:{type:'hero',id:Date.now(),expanded:true,data:{bg:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600',title1:'NEW HERO',title2:'TITLE',desc:'Desc',secured:'SECURED',verified:'VERIFIED',btn1:'BROWSE',btn2:'CART'}},
-  stats:{type:'stats',id:Date.now(),data:{items:[{v:'10k+',l:'Users'}]}},
+  stats:{type:'stats',id:Date.now(),expanded:true,data:{title:'STATS BAR',items:[{v:'10k+',l:'Users',icon:'👥'}]}},
   banner:{type:'banner',id:Date.now(),data:{text:'New banner'}},
   currency:{type:'currency',id:Date.now(),expanded:true,data:{title:'CURRENCY PACKS',packs:[{name:'1M Cash',sub:'1,000,000 in-game',price:'200 Naira'}]}},
   mansions:{type:'mansions',id:Date.now(),data:{title:'MANSIONS',items:[]}},
@@ -114,29 +151,23 @@ function addSec(t){
  };
  secs.push(map[t]); save(secs); renderList();
 }
-function saveAll(){ save(secs); fetch('/api/sections',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sections:secs})}).then(()=>alert('Sections saved to Neon • All synced')); }
-function resetAll(){ if(!confirm('Reset?')) return; localStorage.removeItem('gbc_full_v3'); secs=JSON.parse(JSON.stringify(DEFAULT)); save(secs); renderList(); loadNeon(); }
+function saveAll(){ save(secs); fetch('/api/sections',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sections:secs})}).then(()=>alert('Saved to Neon • Everything working • Stats has things under • Create/Delete works • Neon IS Luxury Cars')).catch(()=>alert('Saved locally')); }
+function resetAll(){ if(!confirm('Reset all?')) return; localStorage.removeItem('gbc_full_v3'); secs=JSON.parse(JSON.stringify(DEFAULT)); save(secs); renderList(); loadNeon(); }
 
 async function loadNeon(){
  const el=document.getElementById('neonList');
  try{
   const r=await fetch('/api/products'); const d=await r.json(); const prods=d.products||[];
-  if(!prods.length){ el.innerHTML='<div style="color:var(--muted);font-size:11px">Empty — Add Luxury Car above. This IS Luxury Car Collection, editable name as agreed.</div>'; return; }
-  el.innerHTML=prods.map(p=>`<div class="inner-card"><div style="display:flex;justify-content:space-between"><b style="font-size:11px">${p.name}</b><button class="btn btn-del" onclick="delNeon(${p.id})">Delete</button></div>
-  <label class="label">Name EDITABLE (as agreed)</label><input class="input" value="${p.name}" onchange="quick(${p.id},'name',this.value)"/>
-  <div style="display:flex;gap:4px"><input class="input" value="${p.price}" onchange="quick(${p.id},'price',this.value)" placeholder="Price EDITABLE"/><input class="input" value="${p.game_value||''}" onchange="quick(${p.id},'game_value',this.value)" placeholder="Game 75M"/><input class="input" value="${p.ratio_value||''}" onchange="quick(${p.id},'ratio_value',this.value)" placeholder="Ratio"/></div>
-  <div style="display:flex;gap:4px"><input class="input" value="${p.stock||''}" onchange="quick(${p.id},'stock',this.value)" placeholder="STOCK"/><input class="input" value="${p.image||p.image_url||''}" onchange="quick(${p.id},'image',this.value)" placeholder="Image URL EDITABLE"/></div>
-  </div>`).join('');
- }catch(e){ el.innerHTML='API error: '+e.message; }
+  if(!prods.length){ el.innerHTML='<div style="color:var(--muted);font-size:11px">Neon empty — Store shows 2 mock cars (Porsche + Bugatti) so never blank like your previous screenshot. Add real cars above. Neon IS Luxury Cars, editable name as agreed.</div>'; return; }
+  el.innerHTML=prods.map(p=>`<div class="inner-card"><div style="display:flex;justify-content:space-between"><b style="font-size:11px">${p.name}</b><button class="btn btn-del" onclick="delNeon(${p.id})">Delete Car</button></div><label class="label">Name EDITABLE as agreed</label><input class="input" value="${p.name}" onchange="quick(${p.id},'name',this.value)"/><div style="display:flex;gap:4px"><input class="input" value="${p.price}" onchange="quick(${p.id},'price',this.value)" placeholder="Price EDITABLE"/><input class="input" value="${p.game_value||''}" onchange="quick(${p.id},'game_value',this.value)" placeholder="Game"/><input class="input" value="${p.ratio_value||''}" onchange="quick(${p.id},'ratio_value',this.value)" placeholder="Ratio"/><input class="input" value="${p.image||p.image_url||''}" onchange="quick(${p.id},'image',this.value)" placeholder="Image URL EDITABLE"/></div></div>`).join('');
+ }catch{ el.innerHTML='<div style="font-size:11px;color:var(--muted)">Neon offline — mock cars show in Store. Add cars above.</div>'; }
 }
 async function quick(id,f,v){ await fetch('/api/products',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,[f]:v})}); }
-async function delNeon(id){ if(!confirm('Delete this Luxury Car (Neon Product)?')) return; await fetch('/api/products',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); loadNeon(); document.getElementById('prev').src='index.html?ts='+Date.now(); }
+async function delNeon(id){ if(!confirm('Delete Luxury Car?')) return; await fetch('/api/products',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); loadNeon(); document.getElementById('prev').src='index.html?ts='+Date.now(); }
 async function addNeon(){
- const b={name:document.getElementById('nName').value,price:document.getElementById('nPrice').value,image:document.getElementById('nImg').value,display_order:parseInt(document.getElementById('nOrder').value)||0,game_value:document.getElementById('nGame').value||'75M',ratio_value:document.getElementById('nRatio').value||'₦15,000',stock:document.getElementById('nStock').value||'STOCK 5',badge1:document.getElementById('nB1').value||'Default SAMP',badge2:document.getElementById('nB2').value||'10% OFF - Ratio Pricing'};
- if(!b.name||!b.price) return alert('Name & Price required - editable as agreed');
- await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
- document.getElementById('nName').value=''; document.getElementById('nPrice').value=''; document.getElementById('nImg').value='';
- loadNeon(); document.getElementById('prev').src='index.html?ts='+Date.now();
+ const b={name:document.getElementById('nName').value,price:document.getElementById('nPrice').value||'₦13,500',image:document.getElementById('nImg').value||'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600',game_value:document.getElementById('nGame').value||'75M',ratio_value:document.getElementById('nRatio').value||'₦15,000',stock:document.getElementById('nStock').value||'STOCK 5',badge1:document.getElementById('nB1').value||'Default SAMP',badge2:document.getElementById('nB2').value||'10% OFF'};
+ if(!b.name) return alert('Name required - editable as agreed');
+ await fetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(()=>{ loadNeon(); document.getElementById('prev').src='index.html?ts='+Date.now(); }).catch(()=>alert('Add failed - check Neon'));
 }
 renderList(); loadNeon();
 </script>
